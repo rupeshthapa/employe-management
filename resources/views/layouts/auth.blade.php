@@ -7,6 +7,19 @@
    
 </head>
 <body>
-    @yield('content')
+    <div class="d-flex justify-content-center align-items-center min-vh-100">
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card p-4 shadow-lg bg-white border-0">
+                        <div class="card-body">
+                            @yield('content')
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
