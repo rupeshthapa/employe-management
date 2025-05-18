@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DashboardController;
@@ -16,6 +17,12 @@ Route::name('user.')->group(function(){
 
     Route::get('/register', [RegisterController::class, 'index'])->name('register-index');
     Route::post('/register-store', [RegisterController::class, 'store'])->name('store');
+
+    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 
+Route::middleware('auth')->group(function(){
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
+});
 

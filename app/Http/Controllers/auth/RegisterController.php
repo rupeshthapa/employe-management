@@ -26,7 +26,7 @@ class RegisterController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        Session::flash('success', 'Registration Successful!');
-        return redirect()->route('user.login-index');
+        // Session::flash();
+        return redirect()->route('user.login-index')->with('success', 'Registration Successful!');
     }
 }

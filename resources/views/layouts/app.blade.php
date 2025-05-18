@@ -7,6 +7,11 @@
 </head>
 
 <body>
+
+    <nav>
+        
+    </nav>
+
     @yield('content')
 
     <footer>

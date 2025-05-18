@@ -21,5 +21,6 @@
             </div>
         </div>
     </div>
+    @include("layouts.cdn.footerScript")
 </body>
 </html>
