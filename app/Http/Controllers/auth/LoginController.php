@@ -15,10 +15,6 @@ class LoginController extends Controller
 
     public function login(LoginRequest $loginRequest){
          $validated =$loginRequest->validated();
-        // if(Auth::attempt([
-        //     'email' =>$validated['email'],
-        //     'password' =>$validated['password']
-        // ]));
         if(Auth::attempt([
             'email' =>$validated['email'],
             'password' =>$validated['password']
