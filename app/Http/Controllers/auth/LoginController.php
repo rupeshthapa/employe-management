@@ -20,7 +20,7 @@ class LoginController extends Controller
             'password' =>$validated['password']
         ])){
             
-            return redirect()->route('nav.index')->with('success', 'Login Successful!');
+            return redirect()->route('nav.dashboard.index')->with('success', 'Login Successful!');
         }
         return back()->with('error', 'Failed to login!');
     }

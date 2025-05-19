@@ -35,15 +35,16 @@
     <div class="d-flex" style="height: calc(100vh - 56px);">
         <!-- Sidebar -->
         <div class="bg-secondary d-flex flex-column" style="width: 250px; padding-top: 100px;">
-            <a href="{{ route('nav.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
+            <a href="{{ route('nav.dashboard.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
                 <i class="fa-solid fa-house"></i> Dashboard
             </a>
-            <a href="#" class="navbar-brand fw-bold text-white ms-5 mb-3">
-                <i class="fa-solid fa-list"></i> Categories
+            <a href="{{ route('nav.department.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
+                <i class="fa-solid fa-building"></i> Department
             </a>
-            <a href="#" class="navbar-brand fw-bold text-white ms-5 mb-3">
-                <i class="fa-solid fa-box"></i> Products
+            <a href="{{ route('nav.employe.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
+                <i class="fa-solid fa-address-book"></i></i> Employe
             </a>
+           
         </div>
     
       

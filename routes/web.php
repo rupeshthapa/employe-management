@@ -5,6 +5,8 @@ use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\EmployeController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -23,9 +25,14 @@ Route::name('user.')->group(function(){
 
 Route::middleware('auth')->group(function(){
 
-    Route::name('nav.')->group(function(){
+Route::name('nav.')->group(function(){
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
+    Route::get('/department', [DepartmentController::class, 'index'])->name('department.index');
+    Route::post('/department-store', [DepartmentController::class, 'store'])->name('department.store');
+
+    Route::get('/employe', [EmployeController::class, 'index'])->name('employe.index');
+    Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');
     });
 });
 
