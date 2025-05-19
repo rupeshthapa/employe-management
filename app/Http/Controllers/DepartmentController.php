@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DepartmentRequest;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -29,9 +30,16 @@ class DepartmentController extends Controller
     public function store(DepartmentRequest $request)
     {
         $validated = $request->validated();
-        if ($request->ajax()) {
-        return response()->json(['message' => 'Validation passed.'], 200);
-    } 
+
+        $department = Department::create([
+            'name' => $validated['name']
+        ]);
+
+       
+        return response()->json([ 
+        'message' => 'Department created successfully!', 
+        'department' => $department ]);
+    
     }
 
     /**

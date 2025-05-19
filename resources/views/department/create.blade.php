@@ -48,21 +48,27 @@ $(document).ready(function () {
                 name: name
             },
             success: function (response) {
-                toastr.success('Validation passed!');
-                // Don't do anything else (no create, no close)
+                toastr.success(response.message);
+
+                $('#createDepartmentForm')[0].reset();
+                    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('departmentModal'));
+                    modal.hide();
+
             },
             error: function (xhr) {
-                if (xhr.status === 422) {
-                    let errors = xhr.responseJSON.errors;
-                    if (errors.name) {
-                        $('#nameError').text(errors.name[0]).show();
-                        $('#department_name').addClass('is-invalid');
-                    }
-                }
-                 else {
-                    toastr.error('Validation failed. Try again.');
-                }
-            }
+    console.log(xhr.responseText); // ← View the real error
+
+    if (xhr.status === 422) {
+        let errors = xhr.responseJSON.errors;
+        if (errors.name) {
+            $('#nameError').text(errors.name[0]).show();
+            $('#department_name').addClass('is-invalid');
+        }
+    } else {
+        toastr.error('Something went wrong. Check console.');
+    }
+}
+
         });
     });
 });
