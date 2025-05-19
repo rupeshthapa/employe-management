@@ -18,11 +18,14 @@ Route::name('user.')->group(function(){
     Route::get('/register', [RegisterController::class, 'index'])->name('register-index');
     Route::post('/register-store', [RegisterController::class, 'store'])->name('store');
 
-    Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+    Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 
 Route::middleware('auth')->group(function(){
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
+    Route::name('nav.')->group(function(){
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
+    });
 });
 

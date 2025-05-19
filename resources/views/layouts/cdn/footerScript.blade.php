@@ -23,4 +23,17 @@
     toastr.error("{{ session('error') }}")
     @endif
 </script>
+
+<script>
+    const profile = document.getElementById('profile');
+    const menu = document.getElementById('profileMenu');
+
+    profile.addEventListener('click', ()=>{
+        if(menu.style.display == 'none' || menu.style.display == '' ){
+            menu.style.display = 'block';
+        }else{
+            menu.style.display = 'none';
+        }
+    });
+</script>
 @stack('scripts')
