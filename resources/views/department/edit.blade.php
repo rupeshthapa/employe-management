@@ -31,17 +31,63 @@
 @include('layouts.cdn.footerScript')
 <script>
     $(document).on('click', '[data-bs-target="#departmentEditModal"]', function () {
-    const id = $(this).data('id');
+    let id = $(this).data('id');
 
     // Option 1: Make AJAX call to fetch department data
     $.ajax({
-        url: `/departments/${id}/edit`, // You need to define this route
+        url: '{{ route('nav.department.edit', ":id") }}'.replace(":id", id), // You need to define this route
         type: 'GET',
         success: function (data) {
             $('#department_edit_name').val(data.name);
-            $('#editDepartmentForm').data('id', id); // Store ID for later
+            $('#editDepartmentForm').data('data-id', id); // Store ID for later
         }
     });
 });
+
+</script>
+
+<script>
+
+   $('#editDepartmentForm').on('submit', function (e) {
+    e.preventDefault();
+
+    let id = $('#editDepartmentForm').data('data-id'); // OR use $('#edit_department_id').val();
+    let name = $('#department_edit_name').val();
+
+    // Clear previous errors
+    $('#editNameError').text('').hide();
+    $('#department_edit_name').removeClass('is-invalid');
+
+    $.ajax({
+        url: `/department/${id}`, // or use `{{ url('department') }}/${id}`
+        type: 'PUT',
+        data: {
+            _token: '{{ csrf_token() }}',
+            name: name
+        },
+        success: function (response) {
+            toastr.success(response.message);
+
+            $('#editDepartmentForm')[0].reset();
+            $('#departmentEditModal').modal('hide');
+
+            // Optional: reload DataTable
+            $('#yourDataTableId').DataTable().ajax.reload(null, false);
+        },
+        error: function (xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+                if (errors.name) {
+                    $('#editNameError').text(errors.name[0]).show();
+                    $('#department_edit_name').addClass('is-invalid');
+                }
+            } else {
+                toastr.error("Something went wrong.");
+                console.log(xhr.responseText);
+            }
+        }
+    });
+});
+
 
 </script>

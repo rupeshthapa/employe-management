@@ -30,7 +30,8 @@ Route::name('nav.')->group(function(){
 
     Route::get('/department', [DepartmentController::class, 'index'])->name('department.index');
     Route::get('/department-data', [DepartmentController::class, 'indexData'])->name('department.index.data');
-    // Route::get('/department-edit-form/{id}', [DepartmentController::class, 'edit'])->name('department.edit');
+    Route::get('/department/{id}/edit', [DepartmentController::class, 'edit'])->name('department.edit');
+    Route::put('/department/{id}', [DepartmentController::class, 'update'])->name('department.update');
     Route::post('/department-store', [DepartmentController::class, 'store'])->name('department.store');
 
     Route::get('/employe', [EmployeController::class, 'index'])->name('employe.index');

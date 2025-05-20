@@ -30,7 +30,7 @@ class DepartmentController extends Controller
                     ->addIndexColumn()
                     ->addColumn("actions",function($department){
                         $id = $department->id;
-                        return "<button class='btn btn-primary border-0' data-bs-toggle='modal' data-bs-target='#departmentEditModal' data-id='$id'><i class='fa-regular fa-pen-to-square'></i></button>";   
+                        return "<button class='btn btn-primary border-0' data-bs-toggle='modal' data-bs-target='#departmentEditModal' data-id='{$id}'><i class='fa-regular fa-pen-to-square'></i></button>";   
                         
                         // <form class='d-inline'>
                         
@@ -87,7 +87,8 @@ class DepartmentController extends Controller
      */
     public function edit(string $id)
     {
-       
+         $department = Department::findOrFail($id);
+    return response()->json($department);
     }
 
     /**
@@ -95,7 +96,15 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    $department = Department::findOrFail($id);
+    $department->name = $request->name;
+    $department->save();
+
+    return response()->json(['message' => 'Department updated successfully.']);
     }
 
     /**
