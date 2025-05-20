@@ -32,6 +32,7 @@ Route::name('nav.')->group(function(){
     Route::get('/department-data', [DepartmentController::class, 'indexData'])->name('department.index.data');
     Route::get('/department/{id}/edit', [DepartmentController::class, 'edit'])->name('department.edit');
     Route::put('/department/{id}', [DepartmentController::class, 'update'])->name('department.update');
+    Route::delete('/department-destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
     Route::post('/department-store', [DepartmentController::class, 'store'])->name('department.store');
 
     Route::get('/employe', [EmployeController::class, 'index'])->name('employe.index');

@@ -30,13 +30,16 @@ class DepartmentController extends Controller
                     ->addIndexColumn()
                     ->addColumn("actions",function($department){
                         $id = $department->id;
-                        return "<button class='btn btn-primary border-0' data-bs-toggle='modal' data-bs-target='#departmentEditModal' data-id='{$id}'><i class='fa-regular fa-pen-to-square'></i></button>";   
-                        
-                        // <form class='d-inline'>
-                        
-                        //         <button class='badge bg-danger border-0'>Delete</button>
-                        //     </form>
-                        // ";
+                        return "
+                            <button class='btn btn-primary border-0' data-bs-toggle='modal' data-bs-target='#departmentEditModal' data-id='{$id}'>
+                            <i class='fa-regular fa-pen-to-square'></i>
+                            </button>
+
+                            <button class='btn bg-danger border-0 delete-department' data-id='{$id}'>
+                            <i class='fa-solid fa-trash'></i>
+                            </button>
+                            ";
+
                        
                         
                     })
@@ -112,6 +115,10 @@ class DepartmentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $department = Department::findOrFail($id);
+        $department->delete();
+        return response()->json([
+            'message' => 'Department deleted successfully!',
+        ]);
     }
 }

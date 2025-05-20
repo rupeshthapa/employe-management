@@ -7,6 +7,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 <script>
@@ -39,6 +41,42 @@
             menu.style.display = 'none';
         }
     });
+</script>
+
+<script>
+      
+$(document).on('click', '.delete-department', function (e) {
+    e.preventDefault();
+    let id = $(this).data('id');
+    console.log('delete button clicked');
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "This action cannot be undone.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `{{ route('nav.department.destroy', ':id') }}`.replace(':id', id),
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    Swal.fire('Deleted!', response.message, 'success');
+                    $('#departmentTable').DataTable().ajax.reload(); // reload DataTable
+                },
+                error: function (xhr) {
+                    Swal.fire('Error!', 'Something went wrong.', 'error');
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    });
+});
 </script>
 
 
