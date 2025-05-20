@@ -2,19 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DepartmentRequest;
+use Exception;
+use Validator;
 use App\Models\Department;
 use Illuminate\Http\Request;
+// use Yajra\DataTables\DataTables;
+use App\Http\Requests\DepartmentRequest;
+use Yajra\DataTables\Facades\DataTables;
 
 class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    // public function index(DepartmentRequest $request)
     public function index()
     {
         return view('department.index');
     }
+    public function indexData(Request $request)
+    {
+        
+        
+                if($request->ajax()){
+                    $departments = Department::all();
+                    return DataTables::of($departments)
+                    ->addIndexColumn()
+                    ->addColumn("actions",function($department){
+                        $id = $department->id;
+                        return "<button class='btn btn-primary border-0' data-bs-toggle='modal' data-bs-target='#departmentEditModal' data-id='$id'><i class='fa-regular fa-pen-to-square'></i></button>";   
+                        
+                        // <form class='d-inline'>
+                        
+                        //         <button class='badge bg-danger border-0'>Delete</button>
+                        //     </form>
+                        // ";
+                       
+                        
+                    })
+                    ->rawColumns(["actions"])
+                    ->make(true);
+                }
+        
+
+        }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -55,7 +87,7 @@ class DepartmentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+       
     }
 
     /**

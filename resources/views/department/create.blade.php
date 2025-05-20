@@ -1,11 +1,11 @@
-@include('layouts.cdn.headerLink')
+{{-- @include('layouts.cdn.headerLink') --}}
 <div class="modal fade" id="departmentModal" tabindex="-1" aria-labelledby="departmentModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form id="createDepartmentForm">
         @csrf
         <div class="modal-header" method="POST">
-          <h5 class="modal-title" id="employeeModalLabel">Add New Department</h5>
+          <h5 class="modal-title" id="departmentModalLabel">Add New Department</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
@@ -28,48 +28,6 @@
     </div>
   </div>
 </div>
-@include('layouts.cdn.footerScript')
-<script>
-$(document).ready(function () {
-    $('#createDepartmentForm').on('submit', function (e) {
-        e.preventDefault();
+{{-- @include('layouts.cdn.footerScript') --}}
 
-        // Clear previous errors
-        $('#nameError').text('').hide();
-        $('#department_name').removeClass('is-invalid');
 
-        let name = $('#department_name').val();
-
-        $.ajax({
-            url: "{{ route('nav.department.store') }}",
-            type: "POST",
-            data: {
-                _token: '{{ csrf_token() }}',
-                name: name
-            },
-            success: function (response) {
-                toastr.success(response.message);
-
-                $('#createDepartmentForm')[0].reset();
-                    const modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('departmentModal'));
-                    modal.hide();
-
-            },
-            error: function (xhr) {
-    console.log(xhr.responseText); // ← View the real error
-
-    if (xhr.status === 422) {
-        let errors = xhr.responseJSON.errors;
-        if (errors.name) {
-            $('#nameError').text(errors.name[0]).show();
-            $('#department_name').addClass('is-invalid');
-        }
-    } else {
-        toastr.error('Something went wrong. Check console.');
-    }
-}
-
-        });
-    });
-});
-</script>

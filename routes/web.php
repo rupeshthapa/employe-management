@@ -29,6 +29,8 @@ Route::name('nav.')->group(function(){
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::get('/department', [DepartmentController::class, 'index'])->name('department.index');
+    Route::get('/department-data', [DepartmentController::class, 'indexData'])->name('department.index.data');
+    // Route::get('/department-edit-form/{id}', [DepartmentController::class, 'edit'])->name('department.edit');
     Route::post('/department-store', [DepartmentController::class, 'store'])->name('department.store');
 
     Route::get('/employe', [EmployeController::class, 'index'])->name('employe.index');
