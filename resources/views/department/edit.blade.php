@@ -85,6 +85,7 @@
         $('body').removeClass('modal-open');
         $('body').css('padding-right', '');
     }, 300);
+    $('#departmentTable').DataTable().ajax.reload();
 },
         error: function (xhr) {
             if (xhr.status === 422) {
