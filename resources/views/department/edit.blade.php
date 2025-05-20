@@ -66,14 +66,26 @@
             name: name
         },
         success: function (response) {
-            toastr.success(response.message);
+    toastr.success(response.message);
 
-            $('#editDepartmentForm')[0].reset();
-            $('#departmentEditModal').modal('hide');
+    // Reset the form
+    $('#editDepartmentForm')[0].reset();
 
-            // Optional: reload DataTable
-            $('#yourDataTableId').DataTable().ajax.reload(null, false);
-        },
+    // Properly close the modal
+    const modalEl = document.getElementById('departmentEditModal'); // ✅ corrected ID
+    const modal = bootstrap.Modal.getInstance(modalEl);
+
+    if (modal) {
+        modal.hide();
+    }
+
+    // Fallback cleanup
+    setTimeout(() => {
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
+        $('body').css('padding-right', '');
+    }, 300);
+},
         error: function (xhr) {
             if (xhr.status === 422) {
                 let errors = xhr.responseJSON.errors;
