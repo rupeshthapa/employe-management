@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class EmployeController extends Controller
@@ -11,7 +12,8 @@ class EmployeController extends Controller
      */
     public function index()
     {
-        return view('employe.index');
+        $departments = Department::get();
+        return view('employe.index', compact('departments'));
     }
 
     /**
@@ -19,7 +21,7 @@ class EmployeController extends Controller
      */
     public function create()
     {
-        return view('employe.create');
+        return view('modals.employee.create');
     }
 
     /**

@@ -34,8 +34,10 @@ Route::name('nav.')->group(function(){
     Route::put('/department/{id}', [DepartmentController::class, 'update'])->name('department.update');
     Route::delete('/department-destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
     Route::post('/department-store', [DepartmentController::class, 'store'])->name('department.store');
+    Route::get('/department-show/{id}', [DepartmentController::class, 'show'])->name('department.show');
 
-    Route::get('/employe', [EmployeController::class, 'index'])->name('employe.index');
+    
+    Route::get('/employee', [EmployeController::class, 'index'])->name('employee.index');
     Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');
     });
 });

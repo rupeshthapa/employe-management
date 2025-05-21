@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 <head>
     
@@ -23,4 +23,4 @@
     </div>
     @include("layouts.cdn.footerScript")
 </body>
-</html>
+</html> --}}
