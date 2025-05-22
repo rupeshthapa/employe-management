@@ -26,7 +26,7 @@ class employeRequest extends FormRequest
             'email' => 'required|email',
             'department' => 'required|string',
             'status' => 'required|in:active,inactive',
-            ''
+            
         ];
     }
 }

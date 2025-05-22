@@ -14,7 +14,7 @@
                     <!-- Employee Name -->
                     <div class="mb-3">
                         <label for="employe_name" class="form-label">Employee Name</label>
-                        <input type="text" class="form-control" id="employe_name" name="name">
+                        <input type="text" class="form-control" id="employe_name" name="employe_name">
                         <div class="invalid-feedback" id="nameError"></div>
                     </div>
 
@@ -29,7 +29,7 @@
                     <div class="mb-3">
                         <label for="departmentDropdown" class="form-label d-flex align-items-center justify-content-between">
                             <span>Department</span>
-                            <button type="button" class="btn btn-sm btn-primary d-flex align-items-center" data-bs-toggle="modal" data-bs-target="#departmentModal">
+                            <button type="button" class="btn btn-sm btn-primary d-flex align-items-center departmentModal">
                                 <i class="fa-solid fa-circle-plus me-2"></i>Add
                             </button>
                         </label>
@@ -44,8 +44,7 @@
                         <div class="invalid-feedback" id="departmentError"></div>
                     </div>
 
-                    <!-- Include department modal (Add New Department) -->
-                    {{-- @include('modals.department.create') --}}
+                   
 
                     <!-- Status Radio -->
                     <div class="mb-3">
@@ -82,6 +81,4 @@
         </div>
     </div>
 </div>
-@push("modals")
-    @include('modals.department.create');
-@endpush
+
