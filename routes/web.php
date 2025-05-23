@@ -40,7 +40,7 @@ Route::name('nav.')->group(function(){
 
     
     Route::get('/employee', [EmployeController::class, 'index'])->name('employee.index');
-    // Route::get('/employee-departments', [EmployeController::class, 'deparment'])->name('employee.department');
+    Route::get('/employee-data', [EmployeController::class, 'indexData'])->name('employee.index.data');
     Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');
     Route::post('/employe-store', [EmployeController::class, 'store'])->name('employe.store');
     });

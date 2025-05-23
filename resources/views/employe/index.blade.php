@@ -8,6 +8,22 @@
         data-bs-target="#employeModal">
         <i class="fa-solid fa-circle-plus me-2"></i>New Employee
         </button> 
+
+
+        <table id="employeeDepartmentTable" class="table table-bordered table-striped my-5">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Employee Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th>Profile</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
     </div>
 @endsection
     
@@ -17,7 +33,48 @@
 @endpush
 @push('scripts')
 <script>
-     // From Employee Modal → Open Department Modal
+    
+    $(document).ready(function(){
+
+        let table = $('#employeeDepartmentTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('nav.employee.index.data') }}",
+            columns: [{
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'employee_name',
+                name: 'employee_name'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'department.name',
+                name: 'department.name'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+            {
+                data: 'image',
+                name: 'image'
+            },
+            {
+                data: 'actions',
+                name: 'actions',
+                orderable: false,
+                searchable: false
+            }
+        ]
+        })
+    });
+
+
     $(document).on("click", ".departmentModal", function (e) {
         e.preventDefault();
 
@@ -129,9 +186,28 @@ function fetchDepartments() {
         processData: false,
         contentType: false,
         success: function(response) {
-            toastr.success(response.message);
-                $('#employeForm')[0].reset();
-            },
+    toastr.success(response.message);
+    $('#employeForm')[0].reset();
+
+    // Hide modal using Bootstrap 5 API
+    let employeModalEl = document.getElementById('employeModal');
+    let modal = bootstrap.Modal.getInstance(employeModalEl);
+
+    if (modal) {
+        modal.hide();
+    }
+
+    // Ensure DataTable reloads
+    
+    // Fallback cleanup in case Bootstrap fails to remove the backdrop
+    setTimeout(() => {
+        $('body').removeClass('modal-open'); // Re-enable scroll
+        $('.modal-backdrop').remove(); // Remove black overlay
+        $('body').css('padding-right', ''); // Clear padding if any
+    }, 300); // Matches Bootstrap’s fade duration
+    $('#employeeDepartmentTable').DataTable().ajax.reload();
+},
+
             error: function(xhr) {
                         console.log(xhr.responseText); // ← View the real error
 

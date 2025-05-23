@@ -6,6 +6,7 @@ use App\Http\Requests\employeRequest;
 use App\Models\Department;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class EmployeController extends Controller
 {
@@ -16,6 +17,47 @@ class EmployeController extends Controller
     {
         return view('employe.index');
     }
+
+
+
+public function indexData(Request $request)
+{
+    if ($request->ajax()) {
+        $employees = Employee::with('department')->select('employees.*');
+        
+        return DataTables::of($employees)
+            ->addIndexColumn()
+
+            // Profile Image
+            ->addColumn('image', function ($row) {
+                if ($row->image) {
+                    $url = asset('storage/' . $row->image);
+                    return '<img src="' . $url . '" width="50" height="50" class="rounded-circle">';
+                }
+                return 'No Image';
+            })
+
+            // Department Name
+            ->editColumn('department.name', function ($row) {
+                return $row->department ? $row->department->name : 'N/A';
+            })
+
+            // Actions (Edit + Delete buttons)
+            ->addColumn('actions', function ($row) {
+                return '
+                    <button class="btn btn-primary border-0 edit-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#departmentEditModal">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn bg-danger border-0 delete-btn" data-id="' . $row->id . '">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>';
+            })
+
+            ->rawColumns(['image', 'actions'])
+            ->make(true);
+    }
+}
+
 
    public function departments(){
       $departments = Department::select('id', 'name')->get();
@@ -64,7 +106,7 @@ class EmployeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        
     }
 
     /**

@@ -105,8 +105,8 @@
                             $('body').removeClass('modal-open'); // Restore body scroll
                             $('body').css('padding-right',
                                 ''); // Reset Bootstrap padding
+                                $('#departmentTable').DataTable().ajax.reload();
                         }, 300); // Wait for fade-out to finish
-                        $('#departmentTable').DataTable().ajax.reload();
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText); // ← View the real error
