@@ -27,8 +27,19 @@ public function indexData(Request $request)
         
         return DataTables::of($employees)
             ->addIndexColumn()
+            ->addColumn('status', function ($row) {
+                // Adjust permission name as needed
+                $canUpdate = auth()->user()->can('update_employee_status');
+                $updateClass = $canUpdate ? 'update-employee-status' : '';
+                $disabled = $canUpdate ? '' : 'disabled';
+                $checked = ($row->status == 'active') ? 'checked' : '';
+                $id = $row->id;
 
-            // Profile Image
+                return "<label class='switch'>
+                            <input type='checkbox' data-id='{$id}' class='form-input-check {$updateClass}' {$checked} {$disabled}/>
+                            <span class='slider round'></span>
+                        </label>";
+            })
             ->addColumn('image', function ($row) {
                 if ($row->image) {
                     $url = asset('storage/' . $row->image);
@@ -53,7 +64,7 @@ public function indexData(Request $request)
                     </button>';
             })
 
-            ->rawColumns(['image', 'actions'])
+            ->rawColumns(['image', 'status', 'actions'])
             ->make(true);
     }
 }

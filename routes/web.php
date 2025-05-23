@@ -43,6 +43,8 @@ Route::name('nav.')->group(function(){
     Route::get('/employee-data', [EmployeController::class, 'indexData'])->name('employee.index.data');
     Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');
     Route::post('/employe-store', [EmployeController::class, 'store'])->name('employe.store');
+    Route::post('/employee/{id}/status', [EmployeController::class, 'indexData'])->name('employee.status.update');
+
     });
 });
 

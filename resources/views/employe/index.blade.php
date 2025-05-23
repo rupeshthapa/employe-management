@@ -1,6 +1,49 @@
 @extends("layouts.app")
 @section('title', 'Employe')
+@push('styles')
+    <style>
+        .switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 25px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 19px;
+  width: 19px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #28a745;
+}
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
 
+    </style>
+@endpush
 @section('content')
     <div class="container my-5">
         <button class="btn btn-primary d-flex align-items-center mb-3" 
@@ -204,8 +247,8 @@ function fetchDepartments() {
         $('body').removeClass('modal-open'); // Re-enable scroll
         $('.modal-backdrop').remove(); // Remove black overlay
         $('body').css('padding-right', ''); // Clear padding if any
+        $('#employeeDepartmentTable').DataTable().ajax.reload(); 
     }, 300); // Matches Bootstrap’s fade duration
-    $('#employeeDepartmentTable').DataTable().ajax.reload();
 },
 
             error: function(xhr) {
@@ -243,6 +286,39 @@ function fetchDepartments() {
         });
     });
     
+
+     $(document).on("click",".update-employee-status",function(){
+                let id  = $(this).data("id");
+                console.log(id);
+                let checked = !($(this).prop('checked'));
+                let checkbox = $(this);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'Status will the updated',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, proceed!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('nav.employee.status.update', ['id' => ':id']) }}".replace(":id",id),
+                            method: 'POST',
+                            success: function (response) {
+                                Swal.fire('Success!', 'Action completed successfully.', 'success');
+                            },
+                            error: function (xhr, status, error) {
+                                checkbox.prop("checked", checked);
+                                Swal.fire('Error!', 'Something went wrong.', 'error');
+                            }
+                        });
+                    } else {
+                        checkbox.prop("checked", checked);
+                        Swal.fire('Cancelled', 'Your action was cancelled.', 'info');
+                    }
+                });
+            });
+
 
 
     
