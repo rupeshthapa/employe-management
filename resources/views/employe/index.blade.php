@@ -73,8 +73,8 @@
                 // Show employee modal again
                 $('#employeModal').modal('show');
 
-                // Fetch updated departments into dropdown
-                fetchDepartments();
+                // // Fetch updated departments into dropdown
+                // fetchDepartments();
             },
             error: function(xhr){
                 let errors = xhr.responseJSON?.errors;
@@ -113,6 +113,63 @@ function fetchDepartments() {
     });
        
 
+    $(document).ready(function(){
+        $('#employeForm').on('submit', function(e){
+            e.preventDefault();
+
+            $('#employeNameError, #emailError, #departmentError, #statusError').text('').hide();
+            $('#employeForm .form-control, #employeForm .form-check-input').removeClass('is-invalid');
+
+           let formData = new FormData(this);
+
+    $.ajax({
+        url: "{{ route('nav.employe.store') }}",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            toastr.success(response.message);
+                $('#employeForm')[0].reset();
+            },
+            error: function(xhr) {
+                        console.log(xhr.responseText); // ← View the real error
+
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            if (errors.employee_name) {
+                $('#employeNameError').text(errors.employee_name[0]).show();
+                $('#employe_name').addClass('is-invalid');
+            }
+            if (errors.email) {
+                $('#emailError').text(errors.email[0]).show();
+                $('#employe_email').addClass('is-invalid');
+            }
+            if (errors.department) {
+                $('#departmentError').text(errors.department[0]).show();
+                $('#departmentDropdown').addClass('is-invalid');
+            }
+            if (errors.status) {
+                $('#statusError').text(errors.status[0]).show();
+                $('input[name="status"]').addClass('is-invalid');
+            }
+            if (errors.profile) {
+                $('#profileError').text(errors.profile[0]).show();
+                $('#profile').addClass('is-invalid');
+            }
+                        } else {
+                            toastr.error('Something went wrong. Check console.');
+                        }
+                    }
+
+
+            });
+        });
+    });
+    
+
+
+    
 
 </script>
 @endpush

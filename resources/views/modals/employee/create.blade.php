@@ -1,7 +1,7 @@
 <div class="modal fade" id="employeModal" role="dialog" aria-labelledby="employeModalLabel" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form id="employeForm" enctype="multipart/form-data">
+            <form id="employeForm" enctype="multipart/form-data" method="post">
                 @csrf
 
                 <div class="modal-header">
@@ -14,8 +14,8 @@
                     <!-- Employee Name -->
                     <div class="mb-3">
                         <label for="employe_name" class="form-label">Employee Name</label>
-                        <input type="text" class="form-control" id="employe_name" name="employe_name">
-                        <div class="invalid-feedback" id="nameError"></div>
+                        <input type="text" class="form-control" id="employe_name" name="employee_name">
+                        <div class="invalid-feedback" id="employeNameError"></div>
                     </div>
 
                     <!-- Employee Email -->
@@ -64,7 +64,7 @@
                     <!-- File Upload -->
                     <div class="mb-3">
                         <label for="profile" class="form-label">Upload Profile</label>
-                        <input type="file" class="form-control" id="profile" name="profile">
+                        <input type="file" class="form-control" id="profile" name="image">
                         <div class="invalid-feedback" id="profileError"></div>
                     </div>
 

@@ -11,7 +11,7 @@ class employeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,10 +22,11 @@ class employeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'email' => 'required|email',
+            'employee_name' => 'required|string',
+            'email' => 'required|email|unique:employees,email',
             'department' => 'required|string',
             'status' => 'required|in:active,inactive',
+            'image' => 'nullable',
             
         ];
     }
