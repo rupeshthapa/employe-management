@@ -32,12 +32,15 @@ Route::name('nav.')->group(function(){
     Route::get('/department-data', [DepartmentController::class, 'indexData'])->name('department.index.data');
     Route::get('/department/{id}/edit', [DepartmentController::class, 'edit'])->name('department.edit');
     Route::put('/department/{id}', [DepartmentController::class, 'update'])->name('department.update');
-    Route::delete('/department-destroy/{id}', [DepartmentController::class, 'destroy'])->name('department.destroy');
+    Route::delete('/department-destroy/{department}', [DepartmentController::class, 'destroy'])->name('department.destroy');
     Route::post('/department-store', [DepartmentController::class, 'store'])->name('department.store');
     Route::get('/department-show/{id}', [DepartmentController::class, 'show'])->name('department.show');
 
+    Route::get('departments-fetch', [EmployeController::class, 'departments'])->name('department.fetch');
+
     
     Route::get('/employee', [EmployeController::class, 'index'])->name('employee.index');
+    // Route::get('/employee-departments', [EmployeController::class, 'deparment'])->name('employee.department');
     Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');
     });
 });

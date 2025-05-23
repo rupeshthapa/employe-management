@@ -35,7 +35,7 @@ class DepartmentController extends Controller
                             <i class='fa-regular fa-pen-to-square'></i>
                             </button>
 
-                            <button class='btn bg-danger border-0 delete-department' data-id='{$id}'>
+                            <button class='btn bg-danger border-0 delete-departments' data-id='{$id}'>
                             <i class='fa-solid fa-trash'></i>
                             </button>
                             ";
@@ -112,9 +112,9 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Department $department)
     {
-        $department = Department::findOrFail($id);
+        
         $department->delete();
         return response()->json([
             'message' => 'Department deleted successfully!',

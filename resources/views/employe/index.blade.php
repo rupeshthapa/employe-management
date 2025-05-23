@@ -12,32 +12,41 @@
 @endsection
     
 @push("modals")
-    @include('modals.employee.create', $departments);
-    @include('modals.department.create');
+    @include('modals.employee.create');
+    {{-- @include('modals.department.create'); --}}
 @endpush
 @push('scripts')
 <script>
-    // From Employee Modal → Open Department Modal
+     // From Employee Modal → Open Department Modal
     $(document).on("click", ".departmentModal", function (e) {
         e.preventDefault();
 
-        // When employee modal fully hides, open department modal
+        // Use `.one()` to avoid stacking multiple event listeners
         $('#employeModal').one('hidden.bs.modal', function () {
+            
             $('#departmentModal').modal('show');
         });
 
         $('#employeModal').modal('hide');
     });
 
-    // From Department Modal → Back to Employee Modal
+    // From Department Modal → Back to Employee Modal when Cancel or Close is clicked
     $(document).on("click", "#cancelBtn, #closeBtn", function () {
         $('#departmentModal').modal('hide');
 
-        // When department modal is fully hidden, reopen employee modal
+        // When Department modal fully hides, reopen Employee modal
         $('#departmentModal').one('hidden.bs.modal', function () {
             $('#employeModal').modal('show');
         });
     });
+
+    // Just close Employee Modal (Cancel or Close buttons)
+    $(document).on("click", "#employCancelBtn, #employeCloseBtn", function () {
+        $('#employeModal').modal('hide');
+    });
+
+   
+
 
     $(document).ready(function() {
     $('#createDepartmentForm').on('submit', function(e) {
@@ -57,8 +66,15 @@
             },
             success: function(response){
                 toastr.success(response.message);
+
+                // Hide department modal
                 $('#departmentModal').modal('hide');
+
+                // Show employee modal again
                 $('#employeModal').modal('show');
+
+                // Fetch updated departments into dropdown
+                fetchDepartments();
             },
             error: function(xhr){
                 let errors = xhr.responseJSON?.errors;
@@ -72,6 +88,31 @@
         });
     });
 });
+
+function fetchDepartments() {
+        console.log("Fetching departments..."); // Debugging line
+
+        $.ajax({
+            url: "{{ route('nav.department.fetch') }}", // Blade syntax, works only inside .blade.php
+            method: 'GET',
+            success: function (data) {
+                let options = '<option value="">Select Department</option>';
+                data.forEach(function (dept) {
+                    options += `<option value="${dept.id}">${dept.name}</option>`;
+                });
+                $('#departmentDropdown').html(options);
+            },
+            error: function () {
+                toastr.error("Failed to load departments.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        fetchDepartments();
+    });
+       
+
 
 </script>
 @endpush

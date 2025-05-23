@@ -12,9 +12,14 @@ class EmployeController extends Controller
      */
     public function index()
     {
-        $departments = Department::get();
-        return view('employe.index', compact('departments'));
+        return view('employe.index');
     }
+
+   public function departments(){
+      $departments = Department::select('id', 'name')->get();
+    return response()->json($departments);
+   }
+
 
     /**
      * Show the form for creating a new resource.

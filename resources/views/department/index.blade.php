@@ -35,6 +35,8 @@
     <script>
         $(document).ready(function() {
 
+
+
             let table = $('#departmentTable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -192,6 +194,44 @@
                     }
                 }
             });
+
+
+
+
         });
+
+
+        $(document).on("click", ".delete-departments", function () {
+    let dataId = $(this).data("id");
+
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'This cannot be undone!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/department-destroy/' + dataId, // Direct URL
+                type: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    Swal.fire('Deleted!', response.message, 'success');
+                    $('#departmentTable').DataTable().ajax.reload();
+                },
+                error: function () {
+                    Swal.fire('Error!', 'Failed to delete department.', 'error');
+                }
+            });
+        }
+    });
+});
+
+            
+
     </script>
 @endpush

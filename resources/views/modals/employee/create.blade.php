@@ -6,7 +6,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="employeModalLabel">Add New Employee</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" id="closeBtn" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
@@ -37,12 +37,10 @@
                         <!-- Department Dropdown -->
                         <select class="form-select" id="departmentDropdown" name="department">
                             <option value="">Select Department</option>
-                            @foreach ($departments as $department)
-                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                            @endforeach
+                            
                         </select>
                         <div class="invalid-feedback" id="departmentError"></div>
-                    </div>
+
 
                    
 
@@ -74,7 +72,7 @@
 
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Save Employee</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="employeCancelBtn">Cancel</button>
                 </div>
 
             </form>
@@ -82,3 +80,6 @@
     </div>
 </div>
 
+@push("modals")
+    @include('modals.department.create');
+@endpush
