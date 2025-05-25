@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Http\Requests\employeRequest;
@@ -18,58 +17,55 @@ class EmployeController extends Controller
         return view('employe.index');
     }
 
+    public function indexData(Request $request)
+    {
+        if ($request->ajax()) {
+            $employees = Employee::with('department')->select('employees.*');
 
-
-public function indexData(Request $request)
-{
-    if ($request->ajax()) {
-        $employees = Employee::with('department')->select('employees.*');
-        
-        return DataTables::of($employees)
-            ->addIndexColumn()
-            ->addColumn('status', function ($row) {
-                // Adjust permission name as needed
-                $checked = $row->status === 'active' ? 'checked' : '';
-                 return "<label class='switch'>
+            return DataTables::of($employees)
+                ->addIndexColumn()
+                ->addColumn('status', function ($row) {
+                    // Adjust permission name as needed
+                    $checked = $row->status === 'active' ? 'checked' : '';
+                    return "<label class='switch'>
         <input type='checkbox' class='toggle-status update-employee-status' data-id='{$row->id}' {$checked}>
         <span class='slider round'></span>
     </label>";
-            })
-            ->addColumn('image', function ($row) {
-                if ($row->image) {
-                    $url = asset('storage/' . $row->image);
-                    return '<img src="' . $url . '" width="50" height="50" class="rounded-circle">';
-                }
-                return 'No Image';
-            })
+                })
+                ->addColumn('image', function ($row) {
+                    if ($row->image) {
+                        $url = asset('storage/' . $row->image);
+                        return '<img src="' . $url . '" width="50" height="50" class="rounded-circle">';
+                    }
+                    return 'No Image';
+                })
 
             // Department Name
-            ->editColumn('department.name', function ($row) {
-                return $row->department ? $row->department->name : 'N/A';
-            })
+                ->editColumn('department.name', function ($row) {
+                    return $row->department ? $row->department->name : 'N/A';
+                })
 
             // Actions (Edit + Delete buttons)
-            ->addColumn('actions', function ($row) {
-                return '
-                    <button class="btn btn-primary border-0 edit-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#departmentEditModal">
+                ->addColumn('actions', function ($row) {
+                    return '
+                    <button class="btn btn-primary border-0 edit-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#editEmployeeModal">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </button>
                     <button class="btn bg-danger border-0 delete-btn" data-id="' . $row->id . '">
                         <i class="fa-solid fa-trash"></i>
                     </button>';
-            })
+                })
 
-            ->rawColumns(['image', 'status', 'actions'])
-            ->make(true);
+                ->rawColumns(['image', 'status', 'actions'])
+                ->make(true);
+        }
     }
-}
 
-
-   public function departments(){
-      $departments = Department::select('id', 'name')->get();
-    return response()->json($departments);
-   }
-
+    public function departments()
+    {
+        $departments = Department::select('id', 'name')->get();
+        return response()->json($departments);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -85,32 +81,33 @@ public function indexData(Request $request)
     public function store(employeRequest $request)
     {
         $validated = $request->validated();
-        if($request->hasFile('image')){
-            $image = $request->file('image');
-            $imageName = time(). '_' . $image->getClientOriginalName();
-            $path = $image->store('employees', 'public');
+        if ($request->hasFile('image')) {
+            $image         = $request->file('image');
+            $imageName     = time() . '_' . $image->getClientOriginalName();
+            $path          = $image->store('employees', 'public');
             $data['image'] = $path;
-        }else{
-             $data['image'] = null;
+        } else {
+            $data['image'] = null;
         }
 
         Employee::create([
-        'employee_name' => $validated['employee_name'],
-        'email'         => $validated['email'],
-        'department_id' => $validated['department'], 
-        'status'        => $validated['status'],
-        'image'         => $data['image']
+            'employee_name' => $validated['employee_name'],
+            'email'         => $validated['email'],
+            'department_id' => $validated['department'],
+            'status'        => $validated['status'],
+            'image'         => $data['image'],
         ]);
 
         return response()->json([
-            'message' => 'Employee created successfully'
+            'message' => 'Employee created successfully',
         ]);
     }
- public function updateStatus(Request $request){
-        $employee = Employee::findOrFail($request->id);
+    public function updateStatus(Request $request)
+    {
+        $employee         = Employee::findOrFail($request->id);
         $employee->status = $request->status;
         $employee->save();
-         return response()->json([
+        return response()->json([
             'message' => 'Status updated to ' . $request->status]);
     }
 
@@ -119,7 +116,7 @@ public function indexData(Request $request)
      */
     public function show(string $id)
     {
-        
+
     }
 
     /**

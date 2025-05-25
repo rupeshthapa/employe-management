@@ -72,6 +72,7 @@ input:checked + .slider:before {
     
 @push("modals")
     @include('modals.employee.create');
+    @include('modals.employee.edit');
     {{-- @include('modals.department.create'); --}}
 @endpush
 @push('scripts')
@@ -328,13 +329,26 @@ const status = checked ? 'active' : 'inactive';
 
 
 
-    
+    //  $(document).on('click', '[data-bs-target="#editEmployeeModal"]', function() {
+    //         let id = $(this).data('id');
+
+    //         // Option 1: Make AJAX call to fetch department data
+    //         $.ajax({
+    //            
+    //                 id), // You need to define this route
+    //             type: 'GET',
+    //             success: function(data) {
+    //                 $('#department_edit_name').val(data.name);
+    //                 $('#editDepartmentForm').data('data-id', id); // Store ID for later
+    //             }
+    //         });
+    //     });
 
 </script>
 @endpush
 
 
-
+ {{-- url: '{{ route('nav.employee.edit', ':id') }}'.replace(":id", --}}
   
 
 
