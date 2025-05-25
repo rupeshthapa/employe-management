@@ -288,10 +288,11 @@ function fetchDepartments() {
     
 
      $(document).on("click",".update-employee-status",function(){
-                let id  = $(this).data("id");
-                console.log(id);
-                let checked = !($(this).prop('checked'));
-                let checkbox = $(this);
+                const checkbox = $(this);
+const id = checkbox.data("id");
+const checked = checkbox.is(":checked");
+const status = checked ? 'active' : 'inactive';
+
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'Status will the updated',
@@ -302,10 +303,16 @@ function fetchDepartments() {
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "{{ route('nav.employee.status.update', ['id' => ':id']) }}".replace(":id",id),
-                            method: 'POST',
+                           url: "{{ route('nav.employee.status.update', ['id' => ':id']) }}".replace(":id",id), 
+                            type: 'POST',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                id: id,
+                                status: status
+                            },
                             success: function (response) {
                                 Swal.fire('Success!', 'Action completed successfully.', 'success');
+                                DataTable.ajax.reload();
                             },
                             error: function (xhr, status, error) {
                                 checkbox.prop("checked", checked);

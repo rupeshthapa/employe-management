@@ -29,16 +29,11 @@ public function indexData(Request $request)
             ->addIndexColumn()
             ->addColumn('status', function ($row) {
                 // Adjust permission name as needed
-                $canUpdate = auth()->user()->can('update_employee_status');
-                $updateClass = $canUpdate ? 'update-employee-status' : '';
-                $disabled = $canUpdate ? '' : 'disabled';
-                $checked = ($row->status == 'active') ? 'checked' : '';
-                $id = $row->id;
-
-                return "<label class='switch'>
-                            <input type='checkbox' data-id='{$id}' class='form-input-check {$updateClass}' {$checked} {$disabled}/>
-                            <span class='slider round'></span>
-                        </label>";
+                $checked = $row->status === 'active' ? 'checked' : '';
+                 return "<label class='switch'>
+        <input type='checkbox' class='toggle-status update-employee-status' data-id='{$row->id}' {$checked}>
+        <span class='slider round'></span>
+    </label>";
             })
             ->addColumn('image', function ($row) {
                 if ($row->image) {
@@ -110,6 +105,13 @@ public function indexData(Request $request)
         return response()->json([
             'message' => 'Employee created successfully'
         ]);
+    }
+ public function updateStatus(Request $request){
+        $employee = Employee::findOrFail($request->id);
+        $employee->status = $request->status;
+        $employee->save();
+         return response()->json([
+            'message' => 'Status updated to ' . $request->status]);
     }
 
     /**
