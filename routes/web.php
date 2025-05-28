@@ -44,6 +44,9 @@ Route::name('nav.')->group(function(){
     Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');
     Route::post('/employe-store', [EmployeController::class, 'store'])->name('employe.store');
     Route::post('/employee/status/update/{id}', [EmployeController::class, 'updateStatus'])->name('employee.status.update');
+    Route::get('/employee/{id}/edit', [EmployeController::class, 'edit'])->name('employee.edit');
+
+
 
     });
 });

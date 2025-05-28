@@ -47,13 +47,14 @@ class EmployeController extends Controller
 
             // Actions (Edit + Delete buttons)
                 ->addColumn('actions', function ($row) {
-                    return '
-                    <button class="btn btn-primary border-0 edit-btn" data-id="' . $row->id . '" data-bs-toggle="modal" data-bs-target="#editEmployeeModal">
-                        <i class="fa-regular fa-pen-to-square"></i>
-                    </button>
-                    <button class="btn bg-danger border-0 delete-btn" data-id="' . $row->id . '">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>';
+                    $id = $row->id;
+                    return "<button class='btn btn-primary border-0 edit-btn' data-id='{$id}'>
+                            <i class='fa-regular fa-pen-to-square'></i>
+                        </button>";
+                    // return "<button class='btn btn-primary border-0 edit-btn' data-bs-toggle='modal' data-bs-target='#editEmployeeModal{$id}' data-id='{$id}'>
+                    //         <i class='fa-regular fa-pen-to-square'></i>
+                    //     </button>";
+
                 })
 
                 ->rawColumns(['image', 'status', 'actions'])
@@ -122,10 +123,19 @@ class EmployeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
+  public function edit($id)
+{
+    $employee = Employee::find($id);
+
+    if (!$employee) {
+        return response()->json(['success' => false]);
     }
+
+    return response()->json([
+        'success' => true,
+        'data' => $employee
+    ]);
+}
 
     /**
      * Update the specified resource in storage.
