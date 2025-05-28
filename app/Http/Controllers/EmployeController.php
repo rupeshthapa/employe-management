@@ -123,9 +123,10 @@ class EmployeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-  public function edit($id)
+public function edit($id)
 {
     $employee = Employee::find($id);
+    $departments = Department::all(); // Or your own filter logic
 
     if (!$employee) {
         return response()->json(['success' => false]);
@@ -133,9 +134,11 @@ class EmployeController extends Controller
 
     return response()->json([
         'success' => true,
-        'data' => $employee
+        'data' => $employee,
+        'departments' => $departments,
     ]);
 }
+
 
     /**
      * Update the specified resource in storage.

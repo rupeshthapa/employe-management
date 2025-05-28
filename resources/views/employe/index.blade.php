@@ -72,8 +72,8 @@
 @endsection
 
 @push('modals')
-@include('modals.employee.edit')
-@include('modals.employee.create')
+    @include('modals.employee.edit')
+    @include('modals.employee.create')
     {{-- @include('modals.department.create'); --}}
 @endpush
 
@@ -333,33 +333,52 @@
             });
         });
 
-        $(document).on("click",".edit-btn",function(){
-            $("#editEmployeeModal").modal("show");
+        $(document).on("click", ".edit-btn", function() {
             let id = $(this).data("id");
-            
-            $('#editEmployeeModal input').val('');
+            $("#editEmployeeModal").modal("show");
 
             $.ajax({
                 url: "{{ route('nav.employee.edit', ['id' => ':id']) }}".replace(":id", id),
                 type: "GET",
-               success: function(response) {
-    console.log("Fetched employee:", response.data); // Optional debug
+                success: function(response) {
+                    const employee = response.data;
 
-    $("#edit_id").val(response.data.id);
-    $("#edit_employee_name").val(response.data.employee_name);
-    $("#edit_employee_email").val(response.data.email);
-    $("#edit_departmentDropdown").val(response.data.department_id).change();
-    $(`input[name="status"][value="${response.data.status}"]`).prop("checked", true);
-},
+                    // Clear all input values
+                    // $('#editEmployeeModal input').val('');
+                    // Clear radio checked status explicitly
+                    
+                    // Populate departments dropdown
+                    if (response.departments) {
+                        let options = '<option value="">Select Department</option>';
+                        response.departments.forEach(dept => {
+                            options += `<option value="${dept.id}">${dept.name}</option>`;
+                        });
+                        $('#edit_departmentDropdown').html(options);
+                    }
+                    
+                    // Fill inputs
+                    $("#edit_id").val(employee.id);
+                    $("#edit_employee_name").val(employee.employee_name);
+                    $("#edit_employee_email").val(employee.email);
+                    $("#edit_departmentDropdown").val(employee.department_id);
+                    
+                    // Set status radio checked safely
+                    const status = (employee.status || '').trim().toLowerCase(); // e.g., "active"
+    $('#editEmployeeModal input[name="status"]').prop('checked', false); // reset all
+    $(`#editEmployeeModal input[name="status"][value="${status}"]`).prop("checked", true);
 
-                error: function(xhr){
+                    // Image preview (if you have preview img tag)
+                    if (employee.image) {
+                        $('#editImagePreview').attr("src", `/storage/${employee.image}`).show();
+                    } else {
+                        $('#editImagePreview').hide();
+                    }
+                },
+                error: function() {
                     toastr.error("Something went wrong while fetching the data.");
-            $("#editEmployeeModal").modal("hide");
+                    $("#editEmployeeModal").modal("hide");
                 }
-                }) 
-            
-        })
-
-        
+            });
+        });
     </script>
 @endpush

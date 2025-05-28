@@ -42,17 +42,21 @@
                     <div class="mb-3">
                         <label class="form-label">Status</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="edit_statusActive" value="active">
+                            <input class="form-check-input border-black" type="radio" name="status" id="edit_statusActive" value="active">
                             <label class="form-check-label" for="edit_statusActive">Active</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="status" id="edit_statusInactive" value="inactive">
+                            <input class="form-check-input border-black" type="radio" name="status" id="edit_statusInactive" value="inactive">
                             <label class="form-check-label" for="edit_statusInactive">Inactive</label>
                         </div>
                         <div class="invalid-feedback d-block" id="editStatusError"></div>
                     </div>
 
-                    <!-- File Upload -->
+                    <div class="mb-3">
+                        <label class="form-label">Current Profile</label><br>
+                        <img id="editImagePreview" src="" class="img-thumbnail mb-2" style="max-height: 120px; display: none;">
+                    </div>
+
                     <div class="mb-3">
                         <label for="edit_profile" class="form-label">Upload Profile</label>
                         <input type="file" class="form-control" id="edit_profile" name="image">
