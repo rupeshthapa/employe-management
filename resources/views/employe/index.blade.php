@@ -380,5 +380,64 @@
                 }
             });
         });
+
+
+
+
+       $('#editEmployeeForm').on("submit", function(e) {
+    e.preventDefault();
+
+    let formData = new FormData(this);
+    let id = $('#edit_id').val(); // hidden input
+
+    // Clear previous error messages
+    $('#editEmployeeNameError').text('').hide();
+    $('#editEmailError').text('').hide();
+    $('#editDepartmentError').text('').hide();
+    $('#editStatusError').text('').hide();
+    $('#editProfileError').text('').hide();
+
+    $.ajax({
+        url: `/employees/${id}`, // Laravel route for update
+        type: 'POST',
+        data: formData,
+        contentType: false,
+        processData: false,
+        headers: {
+            'X-CSRF-TOKEN': $('input[name="_token"]').val()
+        },
+        success: function(response) {
+            $('#editEmployeeModal').modal('hide');
+            $('#editEmployeeForm')[0].reset();
+
+            // Optionally update the table row dynamically
+            toastr.success("Employee updated successfully!");
+            $('#employeeDepartmentTable').DataTable().ajax.reload();
+        },
+        error: function(xhr) {
+            if (xhr.status === 422) {
+                let errors = xhr.responseJSON.errors;
+
+                if (errors.employee_name) {
+                    $('#editEmployeeNameError').text(errors.employee_name[0]).show();
+                }
+                if (errors.email) {
+                    $('#editEmailError').text(errors.email[0]).show();
+                }
+                if (errors.department) {
+                    $('#editDepartmentError').text(errors.department[0]).show();
+                }
+                if (errors.status) {
+                    $('#editStatusError').text(errors.status[0]).show();
+                }
+                if (errors.image) {
+                    $('#editProfileError').text(errors.image[0]).show();
+                }
+            }
+        }
+    });
+});
+
+
     </script>
 @endpush

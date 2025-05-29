@@ -143,10 +143,33 @@ public function edit($id)
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'employee_name' => 'required|string|max:255',
+        'email' => 'required|email|unique:employees,email,'.$id,
+        'department' => 'required',
+        'status' => 'required|in:active,inactive',
+        'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+    ]);
+
+    $employee = Employee::findOrFail($id);
+    $employee->employee_name = $request->employee_name;
+    $employee->email = $request->email;
+    $employee->department_id = $request->department;
+    $employee->status = $request->status;
+
+    if ($request->hasFile('image')) {
+        $filename = time().'_'.$request->image->getClientOriginalName();
+        $path = $request->image->storeAs('profiles', $filename, 'public');
+        $employee->image = $path;
     }
+
+    $employee->save();
+
+    return response()->json(['success' => true]);
+}
+
 
     /**
      * Remove the specified resource from storage.
