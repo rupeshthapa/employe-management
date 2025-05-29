@@ -50,10 +50,10 @@ class EmployeController extends Controller
                     $id = $row->id;
                     return "<button class='btn btn-primary border-0 edit-btn' data-id='{$id}'>
                             <i class='fa-regular fa-pen-to-square'></i>
+                        </button>
+                    <button class='btn btn-danger border-0 delete-btn' data-id='{$id}'>
+                            <i class='fas fa-trash'></i>
                         </button>";
-                    // return "<button class='btn btn-primary border-0 edit-btn' data-bs-toggle='modal' data-bs-target='#editEmployeeModal{$id}' data-id='{$id}'>
-                    //         <i class='fa-regular fa-pen-to-square'></i>
-                    //     </button>";
 
                 })
 
@@ -176,6 +176,8 @@ public function edit($id)
      */
     public function destroy(string $id)
     {
-        //
+        $employee = Employee::findOrFail($id);
+        $employee->delete();
+        return response()->json(['success' => "Employee deleted successfully!"]);
     }
 }

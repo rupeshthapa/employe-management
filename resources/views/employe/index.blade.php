@@ -439,5 +439,36 @@
 });
 
 
+    $(document).on("click", ".delete-btn", function(){
+        let id = $(this).data("id");
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to retriev!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, Cancel!',
+
+        }).then((result) => {
+            if(result.isConfirmed){
+                $.ajax ({
+                    type: "DELETE",
+                    url: "{{ route('nav.employee.delete', ['id' => ':id']) }}".replace(":id", id),
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                    },
+                    success: function(response){
+                        toastr.success("Employee deleted successfully!");
+                        $('#employeeDepartmentTable').DataTable().ajax.reload();
+                    },
+                    error:function(xhr){
+                      Swal.fire('Error!', 'Failed to delete Employee.', 'error');
+                    }
+                })
+            }
+        });
+    });
+
     </script>
 @endpush

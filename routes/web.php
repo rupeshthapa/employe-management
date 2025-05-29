@@ -45,7 +45,8 @@ Route::name('nav.')->group(function(){
     Route::post('/employe-store', [EmployeController::class, 'store'])->name('employe.store');
     Route::post('/employee/status/update/{id}', [EmployeController::class, 'updateStatus'])->name('employee.status.update');
     Route::get('/employee/{id}/edit', [EmployeController::class, 'edit'])->name('employee.edit');
-    Route::post('/employees/{id}', [EmployeController::class, 'update']);
+    Route::post('/employees/{id}', [EmployeController::class, 'update'])->name('employee.update');
+    Route::delete('/employees-delete/{id}', [EmployeController::class, 'destroy'])->name('employee.delete');
 
 
 
