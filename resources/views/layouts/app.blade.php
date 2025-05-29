@@ -50,8 +50,14 @@
                 <a href="{{ route('nav.department.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
                     <i class="fa-solid fa-building"></i> Department
                 </a>
+                <a href="{{ route('nav.designations.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
+                    <i class="fa-solid fa-address-card"></i> Designation
+                </a>
                 <a href="{{ route('nav.employee.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
-                    <i class="fa-solid fa-address-book"></i></i> Employe
+                    <i class="fa-solid fa-address-book"></i> Employe
+                </a>
+                <a href="{{ route('nav.payslip.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
+                    <i class="fa-solid fa-wallet"></i> Payslip
                 </a>
             
             </div>

@@ -6,7 +6,9 @@ use App\Http\Controllers\auth\RegisterController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\PayslipController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -36,9 +38,11 @@ Route::name('nav.')->group(function(){
     Route::post('/department-store', [DepartmentController::class, 'store'])->name('department.store');
     Route::get('/department-show/{id}', [DepartmentController::class, 'show'])->name('department.show');
 
-    Route::get('departments-fetch', [EmployeController::class, 'departments'])->name('department.fetch');
-
+    Route::get('/designation', [DesignationController::class, 'index'])->name('designations.index');
+    Route::post('/designation-store', [DesignationController::class, 'store'])->name('designations.store');
     
+    
+    Route::get('departments-fetch', [EmployeController::class, 'departments'])->name('department.fetch');
     Route::get('/employee', [EmployeController::class, 'index'])->name('employee.index');
     Route::get('/employee-data', [EmployeController::class, 'indexData'])->name('employee.index.data');
     Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');
@@ -47,6 +51,11 @@ Route::name('nav.')->group(function(){
     Route::get('/employee/{id}/edit', [EmployeController::class, 'edit'])->name('employee.edit');
     Route::post('/employees/{id}', [EmployeController::class, 'update'])->name('employee.update');
     Route::delete('/employees-delete/{id}', [EmployeController::class, 'destroy'])->name('employee.delete');
+
+
+
+    Route::get('/payslip', [PayslipController::class, 'index'])->name('payslip.index');
+    
 
 
 
