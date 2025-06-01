@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\employeRequest;
 use App\Models\Department;
+use App\Models\Designation;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -68,6 +69,11 @@ class EmployeController extends Controller
         return response()->json($departments);
     }
 
+    public function designations(){
+        $designations = Designation::select('id', 'name')->get();
+        return response()->json($designations);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -95,6 +101,7 @@ class EmployeController extends Controller
             'employee_name' => $validated['employee_name'],
             'email'         => $validated['email'],
             'department_id' => $validated['department'],
+            'designation_id' => $validated['designation'],  
             'status'        => $validated['status'],
             'image'         => $data['image'],
         ]);
@@ -127,6 +134,8 @@ public function edit($id)
 {
     $employee = Employee::find($id);
     $departments = Department::all(); // Or your own filter logic
+    $designations = Designation::all(); // Or your own filter logic
+
 
     if (!$employee) {
         return response()->json(['success' => false]);
@@ -136,6 +145,7 @@ public function edit($id)
         'success' => true,
         'data' => $employee,
         'departments' => $departments,
+        'designations' => $designations,
     ]);
 }
 
@@ -149,6 +159,7 @@ public function edit($id)
         'employee_name' => 'required|string|max:255',
         'email' => 'required|email|unique:employees,email,'.$id,
         'department' => 'required',
+        'designation' => 'required',
         'status' => 'required|in:active,inactive',
         'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
     ]);

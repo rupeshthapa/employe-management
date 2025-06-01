@@ -5,7 +5,7 @@
         @csrf
         <div class="modal-header">
           <h5 class="modal-title" id="departmentModalLabel">Add New Department</h5>
-          <button type="button" class="btn-close" id="closeBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" id="departmentCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
 
         <div class="modal-body">
@@ -21,7 +21,7 @@
 
         <div class="modal-footer">
           <button type="submit" class="btn btn-success" id="saveBtn">Save Department</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancelBtn">Cancel</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="departmentCancelBtn">Cancel</button>
         </div>
       </form>
     </div>

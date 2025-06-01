@@ -61,8 +61,9 @@
                     <th>ID</th>
                     <th>Employee Name</th>
                     <th>Email</th>
-                    <th>Department</th>
                     <th>Status</th>
+                    <th>Department</th>
+                    <th>Designation</th>
                     <th>Profile</th>
                     <th>Actions</th>
                 </tr>
@@ -102,6 +103,10 @@
                         name: 'department.name'
                     },
                     {
+                        data: 'designation.name',
+                        name: 'designation.name'
+                    },
+                    {
                         data: 'status',
                         name: 'status'
                     },
@@ -120,32 +125,54 @@
         });
 
 
-        $(document).on("click", ".departmentModal", function(e) {
-            e.preventDefault();
+        // Open Department Modal from Employee Modal
+$(document).on("click", ".departmentModal", function (e) {
+    e.preventDefault();
+    $('#employeModal').one('hidden.bs.modal', function () {
+        $('#departmentModal').modal('show');
+    });
+    $('#employeModal').modal('hide');
+});
 
-            // Use `.one()` to avoid stacking multiple event listeners
-            $('#employeModal').one('hidden.bs.modal', function() {
+// Back from Department to Employee
+$(document).on("click", "#departmentCancelBtn, #departmentCloseBtn", function () {
+    $('#departmentModal').modal('hide');
+    $('#departmentModal').one('hidden.bs.modal', function () {
+        $('#employeModal').modal('show');
+    });
+});
 
-                $('#departmentModal').modal('show');
-            });
+// Open Designation Modal from Employee Modal
+$(document).on("click", ".designationModal", function (e) {
+    e.preventDefault();
+    $('#employeModal').one('hidden.bs.modal', function () {
+        $('#designationModal').modal('show');
+    });
+    $('#employeModal').modal('hide');
+});
 
-            $('#employeModal').modal('hide');
-        });
+// Back from Designation to Employee
+$(document).on("click", "#designationCancelBtn, #designationCloseBtn", function () {
+    $('#designationModal').modal('hide');
+    $('#designationModal').one('hidden.bs.modal', function () {
+        $('#employeModal').modal('show');
+    });
+});
 
-        // From Department Modal → Back to Employee Modal when Cancel or Close is clicked
-        $(document).on("click", "#cancelBtn, #closeBtn", function() {
-            $('#departmentModal').modal('hide');
+// Close employee modal and reset form
+$(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
+    $('#employeModal').modal('hide');
+    $('#employeModal').one('hidden.bs.modal', function () {
+        const $form = $('#employeForm');
+        $form[0].reset();
+        $form.find('.invalid-feedback').text('');
+        $form.find('.is-invalid').removeClass('is-invalid');
+        $form.find('select').val('').change();
+        $form.find('input[type=radio]').prop('checked', false);
+        $form.find('input[type=file]').val('');
+    });
+});
 
-            // When Department modal fully hides, reopen Employee modal
-            $('#departmentModal').one('hidden.bs.modal', function() {
-                $('#employeModal').modal('show');
-            });
-        });
-
-        // Just close Employee Modal (Cancel or Close buttons)
-        $(document).on("click", "#employCancelBtn, #employeCloseBtn", function() {
-            $('#employeModal').modal('hide');
-        });
 
 
 
@@ -191,10 +218,46 @@
                     }
                 });
             });
-        });
+            
+            
+            
+            $('#createDesignationForm').on('submit', function(e){
+                e.preventDefault();
+                $('#designationNameError').text('').hide();
+                $('#designation_name').removeClass('is-invalid');
 
+                let name = $('#designation_name').val();
+
+                $.ajax({
+                    url: "{{ route('nav.designations.store') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        name: name
+                    },
+                    success: function(response){
+                        toastr.success(response.message);
+
+                    $('#designationModal').modal('hide');
+                        $('#employeModal').modal('show');
+                        fetchDesignations();
+
+                    },
+                    error: function(xhr){
+                    let errors = xhr.responseJSON?.errors;
+                    if(errors?.name){
+                        $('#designationNameDiv').find('#designationNameError').text(errors.name[0])
+                    .show();
+                    $('#designation_name').addClass('is-invalid');
+                    }else{
+                        toastr.error("An unexpected error occurred.");
+                    }
+                    }
+                })
+            });
+            
+        });
         function fetchDepartments() {
-            console.log("Fetching departments..."); // Debugging line
 
             $.ajax({
                 url: "{{ route('nav.department.fetch') }}", // Blade syntax, works only inside .blade.php
@@ -205,7 +268,8 @@
                         options += `<option value="${dept.id}">${dept.name}</option>`;
                     });
                     $('#departmentDropdown').html(options);
-                    $('#departmentForm')[0].reset();
+                    $('#department_name').val('');
+
 
                 },
                 error: function() {
@@ -214,8 +278,28 @@
             });
         }
 
+        function fetchDesignations(){
+            $.ajax({
+                url: "{{ route('nav.designations.fetch') }}",
+                method: 'GET',
+
+                success: function(data){
+                    let options = '<option value="">Select Designation</option>';
+                    data.forEach(function(desig){
+                        options += `<option value="${desig.id}">${desig.name}</option>`;
+                    });
+                    $('#designationDropdown').html(options);
+                    $('#createDesignationForm')[0].reset();
+                },
+                error: function(){
+                    toastr.error("Failed to load designations.");
+                }
+            });
+        }
+
         $(document).ready(function() {
             fetchDepartments();
+            fetchDesignations();
         });
 
 
@@ -223,7 +307,7 @@
             $('#employeForm').on('submit', function(e) {
                 e.preventDefault();
 
-                $('#employeNameError, #emailError, #departmentError, #statusError').text('').hide();
+                $('#employeNameError, #emailError, #departmentError, #designationError, #statusError').text('').hide();
                 $('#employeForm .form-control, #employeForm .form-check-input').removeClass('is-invalid');
 
                 let formData = new FormData(this);
@@ -273,6 +357,10 @@
                             if (errors.department) {
                                 $('#departmentError').text(errors.department[0]).show();
                                 $('#departmentDropdown').addClass('is-invalid');
+                            }
+                            if (errors.designation) {
+                                $('#designationError').text(errors.designation[0]).show();
+                                $('#designationDropdown').addClass('is-invalid');
                             }
                             if (errors.status) {
                                 $('#statusError').text(errors.status[0]).show();

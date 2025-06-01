@@ -48,6 +48,7 @@ Route::name('nav.')->group(function(){
 
 
     Route::get('departments-fetch', [EmployeController::class, 'departments'])->name('department.fetch');
+    Route::get('designations-fetch', [EmployeController::class, 'designations'])->name('designations.fetch');
     Route::get('/employee', [EmployeController::class, 'index'])->name('employee.index');
     Route::get('/employee-data', [EmployeController::class, 'indexData'])->name('employee.index.data');
     Route::get('/employe-create', [EmployeController::class, 'create'])->name('employe.create');

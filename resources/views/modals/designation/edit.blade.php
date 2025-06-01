@@ -1,4 +1,4 @@
-<div class="modal fade" id="desginationEditModal" aria-labelledby="designationEditModalLabel" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="designationEditModal" aria-labelledby="designationEditModalLabel" aria-hidden="true" data-bs-backdrop="static">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form id="editDesignationForm">

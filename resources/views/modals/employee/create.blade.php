@@ -6,7 +6,7 @@
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="employeModalLabel">Add New Employee</h5>
-                    <button type="button" class="btn-close" id="closeBtn" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" id="employeeCloseBtn" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
@@ -40,6 +40,24 @@
                             
                         </select>
                         <div class="invalid-feedback" id="departmentError"></div>
+                    </div>
+
+                        {{-- Designation with modal button --}}
+                        <div class="mb-3">
+                            <label for="designationDropdown" class="form-label d-flex align-items-center justify-content-between">
+                                <span>Designation</span>
+                                <button type="button" class="btn btn-sm btn-primary d-flex align-items-center designationModal">
+                                    <i class="fa-solid fa-circle-plus me-2"></i>Add
+                                </button>
+                            </label>
+
+                            <!-- Designation Dropdown -->
+                            <select class="form-select" id="designationDropdown" name="designation">
+                                <option value="">Select Designation</option>
+                                
+                            </select>
+                            <div class="invalid-feedback" id="designationError"></div>
+                        </div>
 
 
                    
@@ -72,7 +90,7 @@
 
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-success">Save Employee</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="employeCancelBtn">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="employeeCancelBtn">Cancel</button>
                 </div>
 
             </form>
@@ -81,5 +99,6 @@
 </div>
 
 @push("modals")
-    @include('modals.department.create');
+@include('modals.department.create');
+@include('modals.designation.create');
 @endpush
