@@ -21,7 +21,7 @@ class EmployeController extends Controller
     public function indexData(Request $request)
     {
         if ($request->ajax()) {
-            $employees = Employee::with('department')->select('employees.*');
+            $employees = Employee::with(['department', 'designation'])->select('employees.*');
 
             return DataTables::of($employees)
                 ->addIndexColumn()
@@ -29,9 +29,9 @@ class EmployeController extends Controller
                     // Adjust permission name as needed
                     $checked = $row->status === 'active' ? 'checked' : '';
                     return "<label class='switch'>
-        <input type='checkbox' class='toggle-status update-employee-status' data-id='{$row->id}' {$checked}>
-        <span class='slider round'></span>
-    </label>";
+                    <input type='checkbox' class='toggle-status update-employee-status' data-id='{$row->id}' {$checked}>
+                    <span class='slider round'></span>
+                </label>";
                 })
                 ->addColumn('image', function ($row) {
                     if ($row->image) {
@@ -45,6 +45,11 @@ class EmployeController extends Controller
                 ->editColumn('department.name', function ($row) {
                     return $row->department ? $row->department->name : 'N/A';
                 })
+                ->editColumn('designation.name', function ($row) {
+                    return $row->designation ? $row->designation->name : 'N/A';
+                })
+
+
 
             // Actions (Edit + Delete buttons)
                 ->addColumn('actions', function ($row) {
@@ -102,7 +107,12 @@ class EmployeController extends Controller
             'email'         => $validated['email'],
             'department_id' => $validated['department'],
             'designation_id' => $validated['designation'],  
+            'phone'         => $validated['phone'],
+            'address'       => $validated['address'],
+            'gender'        => $validated['gender'],
             'status'        => $validated['status'],
+            'joined_date'   => $validated['joined_date'],
+            'basic_salary' => $validated['basic_salary'],  
             'image'         => $data['image'],
         ]);
 

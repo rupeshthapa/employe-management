@@ -25,8 +25,13 @@ class employeRequest extends FormRequest
             'employee_name' => 'required|string',
             'email' => 'required|email|unique:employees,email',
             'department' => 'required|string',
-            'designation' => 'required|string',  
+            'designation' => 'required|string',
+            'phone' => 'required|string',
+            'address' => 'required|string',
+            'gender' => 'required|in:male,female',
             'status' => 'required|in:active,inactive',
+            'joined_date' => 'required|date',
+            'basic_salary' => 'required',
             'image' => 'nullable',
             
         ];

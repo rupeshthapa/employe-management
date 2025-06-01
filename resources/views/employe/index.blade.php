@@ -61,9 +61,14 @@
                     <th>ID</th>
                     <th>Employee Name</th>
                     <th>Email</th>
-                    <th>Status</th>
-                    <th>Department</th>
+                    <th>Department</th> 
                     <th>Designation</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                    <th>Joined Date</th>
+                    <th>Basic Salary</th>
                     <th>Profile</th>
                     <th>Actions</th>
                 </tr>
@@ -107,8 +112,28 @@
                         name: 'designation.name'
                     },
                     {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'address',
+                        name: 'address'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender'
+                    },
+                    {
                         data: 'status',
                         name: 'status'
+                    },
+                    {
+                        data: 'joined_date',
+                        name: 'joined_date'
+                    },
+                    {
+                        data: 'basic_salary',
+                        name: 'basic_salary'
                     },
                     {
                         data: 'image',
@@ -307,7 +332,7 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
             $('#employeForm').on('submit', function(e) {
                 e.preventDefault();
 
-                $('#employeNameError, #emailError, #departmentError, #designationError, #statusError').text('').hide();
+                $('#employeNameError, #emailError, #departmentError, #designationError, #phoneError, #addressError, #genderError, #statusError, #dateError, #salaryError').text('').hide();
                 $('#employeForm .form-control, #employeForm .form-check-input').removeClass('is-invalid');
 
                 let formData = new FormData(this);
@@ -362,9 +387,25 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
                                 $('#designationError').text(errors.designation[0]).show();
                                 $('#designationDropdown').addClass('is-invalid');
                             }
+                            if (errors.phone) {
+                                $('#phoneError').text(errors.phone[0]).show();
+                                $('#phone').addClass('is-invalid');
+                            }
+                            if (errors.address) {
+                                $('#addressError').text(errors.address[0]).show();
+                                $('#address').addClass('is-invalid');
+                            }
+                            if (errors.gender) {
+                                $('#genderError').text(errors.gender[0]).show();
+                                $('input[name="gender]').addClass('is-invalid');
+                            }
                             if (errors.status) {
                                 $('#statusError').text(errors.status[0]).show();
                                 $('input[name="status"]').addClass('is-invalid');
+                            }
+                            if (errors.date) {
+                                $('#dateError').text(errors.date[0]).show();
+                                $('#date').addClass('is-invalid');
                             }
                             if (errors.profile) {
                                 $('#profileError').text(errors.profile[0]).show();
@@ -452,8 +493,8 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
                     
                     // Set status radio checked safely
                     const status = (employee.status || '').trim().toLowerCase(); // e.g., "active"
-    $('#editEmployeeModal input[name="status"]').prop('checked', false); // reset all
-    $(`#editEmployeeModal input[name="status"][value="${status}"]`).prop("checked", true);
+                    $('#editEmployeeModal input[name="status"]').prop('checked', false); // reset all
+                    $(`#editEmployeeModal input[name="status"][value="${status}"]`).prop("checked", true);
 
                     // Image preview (if you have preview img tag)
                     if (employee.image) {

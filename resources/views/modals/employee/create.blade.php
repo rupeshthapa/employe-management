@@ -59,9 +59,35 @@
                             <div class="invalid-feedback" id="designationError"></div>
                         </div>
 
+                        <div class="mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="number" class="form-control" id="phone" name="phone">
+                        <div class="invalid-feedback" id="phoneError"></div>
+                    </div>
+                        <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" name="address">
+                        <div class="invalid-feedback" id="addressError"></div>
+                    </div>
 
                    
 
+                    <!-- Gender -->
+                    <div class="mb-3">
+                        <label class="form-label">Gender</label>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male">
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+
+                        <div class="invalid-feedback d-block" id="genderError"></div>
+                    </div>
                     <!-- Status Radio -->
                     <div class="mb-3">
                         <label class="form-label">Status</label>
@@ -77,6 +103,20 @@
                         </div>
 
                         <div class="invalid-feedback d-block" id="statusError"></div>
+                    </div>
+
+
+
+
+                    <div class="mb-3">
+                        <label for="joined_date" class="form-label">Joined Date</label>
+                        <input type="date" class="form-control" id="date" name="joined_date">
+                        <div class="invalid-feedback" id="dateError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="salary" class="form-label">Basic Salary</label>
+                        <input type="number" class="form-control" id="salary" name="basic_salary">
+                        <div class="invalid-feedback" id="salaryError"></div>
                     </div>
 
                     <!-- File Upload -->
