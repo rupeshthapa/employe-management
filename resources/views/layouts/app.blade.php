@@ -54,7 +54,13 @@
                     <i class="fa-solid fa-address-card"></i> Designation
                 </a>
                 <a href="{{ route('nav.employee.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
-                    <i class="fa-solid fa-address-book"></i> Employe
+                    <i class="fa-solid fa-address-book"></i> Employees
+                </a>
+                <a href="#" class="navbar-brand fw-bold text-white ms-5 mb-3">
+                    <i class="fa-solid fa-coins"></i> Allowances
+                </a>
+                <a href="#" class="navbar-brand fw-bold text-white ms-5 mb-3">
+                    <i class="fa-solid fa-money-check-dollar"></i> Bonuses
                 </a>
                 <a href="{{ route('nav.payslip.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
                     <i class="fa-solid fa-wallet"></i> Payslip

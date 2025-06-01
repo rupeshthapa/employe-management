@@ -40,8 +40,13 @@ Route::name('nav.')->group(function(){
 
     Route::get('/designation', [DesignationController::class, 'index'])->name('designations.index');
     Route::post('/designation-store', [DesignationController::class, 'store'])->name('designations.store');
-    
-    
+    Route::get('/designation-data', [DesignationController::class, 'indexData'])->name('designations.index.data');
+    Route::get('/designation/{id}/edit', [DesignationController::class, 'edit'])->name('designations.edit');
+    Route::put('/designation-update/{id}/edit', [DesignationController::class, 'update'])->name('designations.update');
+    Route::delete('/designation-destroy/{id}', [DesignationController::class, 'destroy'])->name('designations.destroy');
+
+
+
     Route::get('departments-fetch', [EmployeController::class, 'departments'])->name('department.fetch');
     Route::get('/employee', [EmployeController::class, 'index'])->name('employee.index');
     Route::get('/employee-data', [EmployeController::class, 'indexData'])->name('employee.index.data');
