@@ -170,7 +170,12 @@ public function edit($id)
         'email' => 'required|email|unique:employees,email,'.$id,
         'department' => 'required',
         'designation' => 'required',
+        'phone' => 'required',
+        'address' => 'required',
+        'gender' => 'required|in:male,female',
         'status' => 'required|in:active,inactive',
+        'joined_date' => 'required|date',
+        'basic_salary' => 'required|numeric',
         'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
     ]);
 
@@ -178,7 +183,14 @@ public function edit($id)
     $employee->employee_name = $request->employee_name;
     $employee->email = $request->email;
     $employee->department_id = $request->department;
+    $employee->designation_id = $request->designation;
+    $employee->phone = $request->phone;
+    $employee->address = $request->address;
+    $employee->gender = $request->gender;
     $employee->status = $request->status;
+    $employee->joined_date = $request->joined_date;
+    $employee->basic_salary = $request->basic_salary;
+
 
     if ($request->hasFile('image')) {
         $filename = time().'_'.$request->image->getClientOriginalName();

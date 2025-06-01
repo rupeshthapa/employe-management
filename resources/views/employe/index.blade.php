@@ -544,7 +544,13 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
     $('#editEmployeeNameError').text('').hide();
     $('#editEmailError').text('').hide();
     $('#editDepartmentError').text('').hide();
+    $('#editDesignationError').text('').hide();
+    $('#editPhoneError').text('').hide();
+    $('#editAddressError').text('').hide();
+    $('#editGenderError').text('').hide();
     $('#editStatusError').text('').hide();
+    $('#editDateError').text('').hide();
+    $('#editSalaryError').text('').hide();
     $('#editProfileError').text('').hide();
 
     $.ajax({
@@ -576,9 +582,21 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
                 }
                 if (errors.department) {
                     $('#editDepartmentError').text(errors.department[0]).show();
+                }if (errors.designation) {
+                    $('#editDesignationError').text(errors.designation[0]).show();
+                }if (errors.phone) {
+                    $('#editPhoneError').text(errors.phone[0]).show();
+                }if (errors.address) {
+                    $('#editAddressError').text(errors.address[0]).show();
+                }if (errors.gender) {
+                    $('#editGenderError').text(errors.gender[0]).show();
                 }
                 if (errors.status) {
                     $('#editStatusError').text(errors.status[0]).show();
+                }if (errors.date) {
+                    $('#editDateError').text(errors.date[0]).show();
+                }if (errors.basic_salary) {
+                    $('#editSalaryError').text(errors.basic_salary[0]).show();
                 }
                 if (errors.image) {
                     $('#editProfileError').text(errors.image[0]).show();
