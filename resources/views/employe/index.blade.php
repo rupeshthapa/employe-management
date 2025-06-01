@@ -484,17 +484,38 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
                         });
                         $('#edit_departmentDropdown').html(options);
                     }
+                    if (response.designations) {
+                        let options = '<option value="">Select Designation</option>';
+                        response.designations.forEach(desig => {
+                            options += `<option value="${desig.id}">${desig.name}</option>`;
+                        });
+                        $('#edit_designationDropdown').html(options);
+                    }
                     
                     // Fill inputs
                     $("#edit_id").val(employee.id);
                     $("#edit_employee_name").val(employee.employee_name);
                     $("#edit_employee_email").val(employee.email);
                     $("#edit_departmentDropdown").val(employee.department_id);
+                    $("#edit_designationDropdown").val(employee.designation_id);
+                    $("#edit_employee_phone").val(employee.phone);
+                    $("#edit_employee_address").val(employee.address);
+                    
+                    const gender = (employee.gender || '').trim().toLowerCase(); // e.g., "active"
+                    $('#editEmployeeModal input[name="gender"]').prop('checked', false); // reset all
+                    $(`#editEmployeeModal input[name="gender"][value="${gender}"]`).prop("checked", true);
                     
                     // Set status radio checked safely
                     const status = (employee.status || '').trim().toLowerCase(); // e.g., "active"
                     $('#editEmployeeModal input[name="status"]').prop('checked', false); // reset all
                     $(`#editEmployeeModal input[name="status"][value="${status}"]`).prop("checked", true);
+
+
+                   
+                    $("#edit_date").val(employee.joined_date);
+                    $("#edit_employee_salary").val(employee.basic_salary);
+
+
 
                     // Image preview (if you have preview img tag)
                     if (employee.image) {
