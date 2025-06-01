@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllowancesController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\auth\RegisterController;
@@ -58,6 +59,12 @@ Route::name('nav.')->group(function(){
     Route::post('/employees/{id}', [EmployeController::class, 'update'])->name('employee.update');
     Route::delete('/employees-delete/{id}', [EmployeController::class, 'destroy'])->name('employee.delete');
 
+
+    
+
+    Route::get('/allowances', [AllowancesController::class, 'index'])->name('allowances.index');
+    Route::post('/allowances-store', [AllowancesController::class, 'store'])->name('allowances.store');
+    Route::get('/allowances-data', [AllowancesController::class, 'indexData'])->name('allowances.index.data');
 
 
     Route::get('/payslip', [PayslipController::class, 'index'])->name('payslip.index');
