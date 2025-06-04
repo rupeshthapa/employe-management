@@ -4,6 +4,7 @@ use App\Http\Controllers\AllowancesController;
 use App\Http\Controllers\auth\LoginController;
 use App\Http\Controllers\auth\LogoutController;
 use App\Http\Controllers\auth\RegisterController;
+use App\Http\Controllers\BonusesController;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
@@ -65,7 +66,19 @@ Route::name('nav.')->group(function(){
     Route::get('/allowances', [AllowancesController::class, 'index'])->name('allowances.index');
     Route::post('/allowances-store', [AllowancesController::class, 'store'])->name('allowances.store');
     Route::get('/allowances-data', [AllowancesController::class, 'indexData'])->name('allowances.index.data');
+    Route::get('/allowances/{id}/edit', [AllowancesController::class, 'edit'])->name('allowances.edit');
+    Route::put('/allowances-update/{id}', [AllowancesController::class, 'update'])->name('allowances.update');
+    Route::delete('/allowances-destroy/{allowance}', [AllowancesController::class, 'destroy'])->name('allowances.destroy');
 
+
+
+    Route::get('/bonuses', [BonusesController::class, 'index'])->name('bonuses.index');
+    Route::post('/bonuses-store', [BonusesController::class, 'store'])->name('bonuses.store');
+    Route::get('/bonuses-data', [BonusesController::class, 'indexData'])->name('bonuses.index.data');
+    Route::get('/bonuses/{id}/edit', [BonusesController::class, 'edit'])->name('bonuses.edit');
+    
+
+    
 
     Route::get('/payslip', [PayslipController::class, 'index'])->name('payslip.index');
     

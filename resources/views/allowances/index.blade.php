@@ -27,6 +27,7 @@
 
 @push('modals')
     @include('modals.allowance.create')
+    @include('modals.allowance.edit')
 @endpush
 
 @push('scripts')
@@ -84,21 +85,21 @@
                         $('#createAllowanceForm')[0].reset();
 
                         // Properly close the modal
-                        // const modalEl = document.getElementById('allowanceModal');
-                        // const modal = bootstrap.Modal.getInstance(modalEl);
+                        const modalEl = document.getElementById('allowanceModal');
+                        const modal = bootstrap.Modal.getInstance(modalEl);
 
-                        // if (modal) {
-                        //     modal.hide();
-                        // }
+                        if (modal) {
+                            modal.hide();
+                        }
 
-                        // // Fallback cleanup to ensure backdrop & body state are cleared
-                        // setTimeout(() => {
-                        //     $('.modal-backdrop').remove(); // Remove leftover overlay
-                        //     $('body').removeClass('modal-open'); // Restore body scroll
-                        //     $('body').css('padding-right',
-                        //         ''); // Reset Bootstrap padding
-                        //         $('#departmentTable').DataTable().ajax.reload();
-                        // }, 300); // Wait for fade-out to finish
+                        // Fallback cleanup to ensure backdrop & body state are cleared
+                        setTimeout(() => {
+                            $('.modal-backdrop').remove(); // Remove leftover overlay
+                            $('body').removeClass('modal-open'); // Restore body scroll
+                            $('body').css('padding-right',
+                                ''); // Reset Bootstrap padding
+                                $('#allowanceTable').DataTable().ajax.reload();
+                        }, 300); // Wait for fade-out to finish
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText); // ← View the real error
@@ -117,7 +118,102 @@
                 });
             });
 
-        
+
+            $(document).on('click', '.edit-allowance', function(){
+                let id = $(this).data('id');
+
+                $.ajax({
+                    url: "{{ route('nav.allowances.edit', ':id') }}".replace(':id', id),
+                    type: 'GET',
+                    success: function(data){
+                        $('#allowance_edit_name').val(data.name);
+                        $('#editAllowanceForm').data('data-id', id);
+                    }
+                });
+            });
+
+
+            $('#editAllowanceForm').on('submit', function(e){
+                e.preventDefault();
+
+                let id = $('#editAllowanceForm').data('data-id');
+                let name = $('#allowance_edit_name').val();
+
+                $('#allowanceEditNameError').text('').hide();
+                $('#allowance_edit_name').removeClass('is-invalid');
+
+                $.ajax({
+                    url: `/allowances-update/${id}`,
+                    type: 'PUT',
+                    
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        name: name
+                    },
+                    success: function(response){
+                        toastr.success(response.message);
+                        $('#editAllowanceForm')[0].reset();
+
+                        const modalEl = document.getElementById('allowanceEditModal');
+                        const modal = bootstrap.Modal.getInstance(modalEl);
+
+                        if(modal){
+                            modal.hide();
+                        }
+
+                        setTimeout(() => {
+                            $('.modal-backdrop').remove();
+                            $('body').removeClass('modal-open');
+                            $('body').css('padding-right', '');
+                        }, 300);
+                        $('#allowanceTable').DataTable().ajax.reload();
+                    },
+                    error:function(xhr){
+                        if(xhr.status === 422){
+                            let errors = xhr.responseJSON.errors;
+                            if(errors.name){
+                                $('#allowanceEditNameError').text(errors.name[0]).show();
+                                $('#allowance_edit_name').addClass('is-invalid');
+                            }
+                        }else{
+                            toastr.error('An error occurred while updating allowance.');
+                        }
+                    }
+                });
+            });
+
+
+
+            
+            $(document).on('click', '.delete-allowance', function(){
+                let id = $(this).data('id');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButton: 'Cancel'
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url: '{{ route('nav.allowances.destroy', ':id') }}'.replace(':id', id),
+                            type: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function(response){
+                                Swal.fire('Deleted!', response.message, 'success');
+                                $('#allowanceTable').DataTable().ajax.reload();
+                            },
+                            error: function(){
+                                Swal.fire('Error!', 'Failed to delete');
+                            }
+                        })
+                    }
+                });
+            });
         });
     </script>
 @endpush

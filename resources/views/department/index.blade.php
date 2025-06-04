@@ -132,8 +132,7 @@
 
             // Option 1: Make AJAX call to fetch department data
             $.ajax({
-                url: '{{ route('nav.department.edit', ':id') }}'.replace(":id",
-                    id), // You need to define this route
+                url: '{{ route('nav.department.edit', ':id') }}'.replace(":id",id), // You need to define this route
                 type: 'GET',
                 success: function(data) {
                     $('#department_edit_name').val(data.name);
