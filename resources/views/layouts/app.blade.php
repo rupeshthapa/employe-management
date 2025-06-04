@@ -62,6 +62,9 @@
                 <a href="{{ route('nav.bonuses.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
                     <i class="fa-solid fa-money-check-dollar"></i> Bonuses
                 </a>
+                <a href="{{ route('nav.payrolls.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
+                    <i class="fa-solid fa-sack-dollar"></i></i> Payrolls
+                </a>
                 <a href="{{ route('nav.payslip.index') }}" class="navbar-brand fw-bold text-white ms-5 mb-3">
                     <i class="fa-solid fa-wallet"></i> Payslip
                 </a>

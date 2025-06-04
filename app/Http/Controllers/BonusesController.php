@@ -34,6 +34,9 @@ class BonusesController extends Controller
                 $id = $row->id;
                 return "<button class='btn btn-primary border-0 edit-bonus' data-bs-toggle='modal' data-bs-target='#editBonusModal' data-id='{$id}'>
                         <i class='fa-regular fa-pen-to-square'></i>
+                    </button>
+                <button class='btn btn-danger border-0 delete-bonus' data-id='{$id}'>
+                        <i class='fas fa-trash'></i>
                     </button>";
             })
             ->rawColumns(['actions'])
@@ -45,5 +48,27 @@ class BonusesController extends Controller
     public function edit(string $id){
         $bonus = Bonus::findOrFail($id);
         return response()->json($bonus);
+    }
+
+    public function update(Request $request, string $id){
+        $validated = $request->validate([
+            'name' => 'required|string',
+        ]);
+
+        $bonus = Bonus::findOrFail($id);
+        $bonus->name = $request->name;
+        $bonus->save();
+
+        return response()->json([
+            'message' => 'Bonus updated successfully!'
+        ]);
+    }
+
+    public function destroy(Bonus $bonus){
+        
+        $bonus->delete();
+        return response()->json([
+            'message' => 'Bonus deleted successfully!'
+        ]);
     }
 }

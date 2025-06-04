@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EmployeController;
+use App\Http\Controllers\PayrollsController;
 use App\Http\Controllers\PayslipController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,9 +77,20 @@ Route::name('nav.')->group(function(){
     Route::post('/bonuses-store', [BonusesController::class, 'store'])->name('bonuses.store');
     Route::get('/bonuses-data', [BonusesController::class, 'indexData'])->name('bonuses.index.data');
     Route::get('/bonuses/{id}/edit', [BonusesController::class, 'edit'])->name('bonuses.edit');
+    Route::put('/bonuses-update/{id}', [BonusesController::class, 'update'])->name('bonuses.update');
+    Route::delete('/bonuses-destroy/{bonus}', [BonusesController::class, 'destroy'])->name('bonuses.destroy');
+
     
 
     
+
+    Route::get('/payrolls', [PayrollsController::class, 'index'])->name('payrolls.index');
+    Route::post('/payrolls-store', [PayrollsController::class, 'store'])->name('payrolls.store');
+
+    
+
+
+
 
     Route::get('/payslip', [PayslipController::class, 'index'])->name('payslip.index');
     

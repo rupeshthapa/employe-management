@@ -120,9 +120,87 @@
                 })
             });
 
-        })
+            
+            $('#editBonusForm').on('submit', function(e){
+                e.preventDefault();
+                
+                let id = $('#editBonusForm').data('data-id');
+                let name = $('#editBonus_name').val();
+                
+                $('#editBonusNameError').text('').hide();
+                $('#editBonus_name').removeClass('is-invalid');
+                
+                $.ajax({
+                    url: `/bonuses-update/${id}`,
+                    type: "PUT",
+                    data: {
+                    _token: "{{ csrf_token() }}",
+                    name: name,
+                },
+                success:function(response){
+                    toastr.success(response.message);
+                    $('#editBonusForm')[0].reset();
+                    
+                    const modeEl = document.getElementById('editBonusModal');
+                    const modal = bootstrap.Modal.getInstance(modeEl);
+                    
+                    if(modal){
+                        modal.hide();
+                    }
+                    setTimeout(() => {
+                        $('.modal-backdrop').remove();
+                        $('body').removeClass('modal-open');
+                        $('body').css('padding-right', '');
+                    }, 300);
+                    $('#bonusTable').DataTable().ajax.reload();
+                },
+                error:function(xhr){
+                    if(xhr.status === 422){
+                        let errors = xhr.responseJSON.errors;
+                        if(errors.name){
+                            $('#editBonusNameError').text(errors.name[0]).show();
+                            $('#editBonus_name').addClass('is-invalid');
+                        }
+                    }else{
+                        toastr.error('An error occurred while updating bonus.');
+                    }
+                }
+            });
+            
+            
+            
+            $(document).on('click', '.delete-bonus', function(){
+                let id = $(this).data('id');
+                
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You will not be able to recover this bonus!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, delete it!",
+                    cancelButtonText: "Cancel"
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        $.ajax({
+                            url: "{{ route('nav.bonuses.destroy', ':id') }}".replace(':id', id),
+                            type: "DELETE",
+                            data: {
+                                _token: "{{ csrf_token() }}"
+                            },
+                            success:function(response){
+                                Swal.fire("Deleted!", response.message, "success");
+                                $('#bonusTable').DataTable().ajax.reload();
+                            },
+                            error:function(xhr){
+                                Swal.fire("Error!", "An error occurred while deleting bonus.", "error");
+                            }
+                        })
+                    }
+                });
+                
+            });
+        });
 
-
-
+    });
     </script>
 @endpush
