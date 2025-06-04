@@ -23,7 +23,7 @@ class PayrollsRequest extends FormRequest
     {
         return [
             'salary_month' => 'required|date',
-            'status' => 'required|in:draft,processed',
+            'status' => 'in:draft,processed',
         ];
     }
 }

@@ -86,6 +86,8 @@ Route::name('nav.')->group(function(){
 
     Route::get('/payrolls', [PayrollsController::class, 'index'])->name('payrolls.index');
     Route::post('/payrolls-store', [PayrollsController::class, 'store'])->name('payrolls.store');
+    Route::get('/payrolls-data', [PayrollsController::class, 'indexData'])->name('payrolls.index.data');
+
 
     
 

@@ -17,12 +17,19 @@ class PayrollsController extends Controller
 
         Payroll::create([
             'salary_month' => $validated['salary_month'],
-            'status' => $validated['status']
+            'status' => $validated['status'] ?? 'draft',
         ]);
 
         return response()->json([
             'message'=> 'Payroll created successfully!',
-
+            'data' => $validated
         ]);
+    }
+
+    public function indexData(Request $request){
+        if($request->ajax(){
+            $payrolls = Payroll:all();
+            return DataTables::of
+        })
     }
 }
