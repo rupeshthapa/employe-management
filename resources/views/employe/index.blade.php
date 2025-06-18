@@ -429,7 +429,7 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Status will the updated',
+                text: 'Status will be updated',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Yes, proceed!',

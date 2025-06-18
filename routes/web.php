@@ -87,6 +87,10 @@ Route::name('nav.')->group(function(){
     Route::get('/payrolls', [PayrollsController::class, 'index'])->name('payrolls.index');
     Route::post('/payrolls-store', [PayrollsController::class, 'store'])->name('payrolls.store');
     Route::get('/payrolls-data', [PayrollsController::class, 'indexData'])->name('payrolls.index.data');
+    Route::post('/payrolls/{id}/udpateStatus', [PayrollsController::class, 'updateStatus'])->name('payrolls.updateStatus');
+    Route::get('/payrolls/{id}/edit', [PayrollsController::class, 'edit'])->name('payrolls.edit');
+    Route::post('/payrolls-update/{id}', [PayrollsController::class, 'update'])->name('payrolls.update');
+    Route::delete('/payrolls-destroy/{id}', [PayrollsController::class, 'destroy'])->name('payrolls.destroy');
 
 
     
@@ -95,6 +99,7 @@ Route::name('nav.')->group(function(){
 
 
     Route::get('/payslip', [PayslipController::class, 'index'])->name('payslip.index');
+
     
 
 
