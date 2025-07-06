@@ -11,7 +11,8 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Allowance Name</th>
+                    <th>Name</th>
+                    <th>Amount</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
@@ -47,6 +48,10 @@
                 name: 'name'
             },
             {
+                data: 'amount',
+                name: 'amount'
+            },
+            {
                 data: 'created_at',
                 name: 'created_at'
             },
@@ -66,17 +71,20 @@
                 e.preventDefault();
 
                 // Clear previous errors
-                $('#allowanceNameError').text('').hide();
-                $('#allowance_name').removeClass('is-invalid');
+                $('#allowanceNameError, #amountError').text('').hide();
+                $('#allowance_name, #amount').removeClass('is-invalid');
 
                 let name = $('#allowance_name').val();
+                let amount = $('#amount').val();
+
 
                 $.ajax({
                     url: "{{ route('nav.allowances.store') }}",
                     type: "POST",
                     data: {
                         _token: '{{ csrf_token() }}',
-                        name: name
+                        name: name,
+                        amount: amount
                     },
                     success: function(response) {
                         toastr.success(response.message);
@@ -110,6 +118,10 @@
                                 $('#allowanceNameError').text(errors.name[0]).show();
                                 $('#allowance_name').addClass('is-invalid');
                             }
+                            if (errors.amount) {
+                                $('#amountError').text(errors.amount[0]).show();
+                                $('#amount').addClass('is-invalid');
+                            }
                         } else {
                             toastr.error('Something went wrong. Check console.');
                         }
@@ -127,6 +139,7 @@
                     type: 'GET',
                     success: function(data){
                         $('#allowance_edit_name').val(data.name);
+                        $('#edit_amount').val(data.amount);
                         $('#editAllowanceForm').data('data-id', id);
                     }
                 });
@@ -138,9 +151,11 @@
 
                 let id = $('#editAllowanceForm').data('data-id');
                 let name = $('#allowance_edit_name').val();
+                let amount = $('#edit_amount').val();
 
-                $('#allowanceEditNameError').text('').hide();
-                $('#allowance_edit_name').removeClass('is-invalid');
+
+                $('#allowanceEditNameError, #editAmountError').text('').hide();
+                $('#allowance_edit_name, edit_amount').removeClass('is-invalid');
 
                 $.ajax({
                     url: `/allowances-update/${id}`,
@@ -148,7 +163,9 @@
                     
                     data: {
                         _token: "{{ csrf_token() }}",
-                        name: name
+                        name: name,
+                        amount: amount
+
                     },
                     success: function(response){
                         toastr.success(response.message);
@@ -174,6 +191,10 @@
                             if(errors.name){
                                 $('#allowanceEditNameError').text(errors.name[0]).show();
                                 $('#allowance_edit_name').addClass('is-invalid');
+                            }
+                            if(errors.amount){
+                                $('#editAmountError').text(errors.amount[0]).show();
+                                $('#edit_amount').addClass('is-invalid');
                             }
                         }else{
                             toastr.error('An error occurred while updating allowance.');

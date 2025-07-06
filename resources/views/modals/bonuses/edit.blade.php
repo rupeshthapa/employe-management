@@ -10,12 +10,18 @@
 
         <div class="modal-body">
           <div class="mb-3" id="editBonusNameDiv">
-            <label for="name" class="form-label">Edit Bonus</label>
+            <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="editBonus_name" name="name">
             <div class="invalid-feedback" id="editBonusNameError">
             </div>
           </div>
          
+          <div class="mb-3" id="editBonusAmountDiv">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="text" class="form-control" id="editAmount" name="amount">
+            <div class="invalid-feedback" id="editAmountError">
+            </div>
+          </div>
           
         </div>
 

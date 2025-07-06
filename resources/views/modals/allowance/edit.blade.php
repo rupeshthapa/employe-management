@@ -10,9 +10,17 @@
 
         <div class="modal-body">
           <div class="mb-3" id="allowanceEditNameDiv">
-            <label for="name" class="form-label">Allowance Name</label>
+            <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="allowance_edit_name" name="name">
             <div class="invalid-feedback" id="allowanceEditNameError">
+            </div>
+          </div>
+          
+          
+          <div class="mb-3" id="allowanceEditAmountDiv">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" class="form-control" id="edit_amount" name="amount">
+            <div class="invalid-feedback" id="editAmountError">
             </div>
           </div>
          

@@ -11,7 +11,7 @@ class PaySlipRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class PaySlipRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'employee_id' => 'required',
+            'basic_salary' => 'required',
+            'payroll_id' => 'required',
+            'overtime' => 'required',
+            'bonus_id' => 'required',
+            'bonus_amount' => 'required',
+            'deduction' => 'required',
+            'gross_salary' => 'required',
+            'net_salary' => 'required',
+
+
         ];
     }
 }

@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('payslips', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-            $table->foreignId('payroll_id')->nullable()->constrained('payrolls')->onDelete('set null');
-            $table->decimal('basic_salary', 10, 2);
+            $table->foreignId('employee_id')->constrained('employees');
+            $table->foreignId('payroll_id')->nullable()->constrained('payrolls');
             $table->decimal('overtime', 10, 2)->default(0);
+            $table->foreignId('bonus_id')->nullable();
             $table->decimal('deduction', 10, 2)->default(0);
+            $table->decimal('gross_salary', 10, 2);
             $table->decimal('net_salary', 10, 2);
+            $table->string('tax');
             $table->timestamps();
         });
     }

@@ -472,11 +472,7 @@ $(document).on("click", "#employeeCancelBtn, #employeeCloseBtn", function () {
                 success: function(response) {
                     const employee = response.data;
 
-                    // Clear all input values
-                    // $('#editEmployeeModal input').val('');
-                    // Clear radio checked status explicitly
-                    
-                    // Populate departments dropdown
+                   
                     if (response.departments) {
                         let options = '<option value="">Select Department</option>';
                         response.departments.forEach(dept => {

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('bonuses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->decimal('amount', 10, 2);
             $table->timestamps();
         });
     }

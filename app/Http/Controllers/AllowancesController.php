@@ -18,6 +18,7 @@ class AllowancesController extends Controller
 
        $allowance = Allowance::Create([
             'name' => $validated['name'],
+            'amount' => $validated['amount'],
             
         ]);
 
@@ -59,10 +60,12 @@ class AllowancesController extends Controller
     public function update(Request $request, string $id){
         $request->validate([
             'name' => 'required|string|max:255',
+            'amount' => 'required|numeric',
         ]);
 
         $allowance = Allowance::findOrFail($id);
         $allowance->name = $request->name;
+        $allowance->amount = $request->amount;
 
         $allowance->save();
 

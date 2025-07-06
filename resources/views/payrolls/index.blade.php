@@ -284,48 +284,43 @@
 
 
                 $(document).on('click', '.delete-payroll', function(){
+    let id = $(this).data('id');
 
-                    let id = $(this).data('id');
-                    Swal.fire({
-                        title: 'Are you sure you want to delete this payroll?',
-                        text: 'You will not be able to recover this payroll.',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Yes, delete it!',
-                        cancelButtonText: 'Cancel'
-                    }).then((result) => {
+    Swal.fire({
+        title: 'Are you sure you want to delete this payroll?',
+        text: 'You will not be able to recover this payroll.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                type: 'DELETE',
+                url: "{{ url('payrolls-destroy') }}/" + id,
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    Swal.fire(
+                        'Deleted!',
+                        response.message,
+                        'success'
+                    );
+                    $('#payrollTable').DataTable().ajax.reload();
+                },
+                error: function () {
+                    Swal.fire(
+                        'Error!',
+                        'There was a problem deleting the payroll. Please try again.',
+                        'error'
+                    );
+                }
+            });
+        }
+    });
+});
 
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                type: 'DELETE',
-                                url: 'nav/payrolls/' + id,
-                                data: {
-                                    _token: '{{ csrf_token() }}'
-                                },
-                                success: function (response) {
-                                    Swal.fire(
-                                        'Deleted!',
-                                        'Payroll has been deleted.',
-                                        'success'
-                                    );
-                                    $('#payrollTable').DataTable().ajax.reload();
-                                    },
-                                    error: function (xhr) {
-                                        Swal.fire(
-                                            'Error deleting payroll',
-                                            'Please try again',
-                                            'error'
-                                        );
-                                        }
-                                });
-                            }
-                        
-
-
-                        
-                    });
-
-                });
         });
 
 

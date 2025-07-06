@@ -15,6 +15,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Bonus Name</th>
+                    <th>Amount</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
@@ -49,9 +50,14 @@
                         name: 'name'
                     },
                     {
+                        data: 'amount',
+                        name: 'amount'
+                    },
+                    {
                         data: 'created_at',
                         name: 'created_at'
                     },
+                    
                     {
                         data: 'actions',
                         name: 'actions',
@@ -66,8 +72,10 @@
                 e.preventDefault();
 
                 let  name = $('#bonus_name').val();
-                $('#bonusNameError').text('').hide();
-                $('#bonus_name').removeClass('is-invalid');
+                let amount = $('#amount').val();
+
+                $('#bonusNameError, #amountError').text('').hide();
+                $('#bonus_name, #amount').removeClass('is-invalid');
 
                 $.ajax({
                     url: "{{ route('nav.bonuses.store') }}",
@@ -75,6 +83,7 @@
                     data: {
                         _token: "{{ csrf_token() }}",
                         name: name,
+                        amount: amount,
                     },
                     success:function(response){
                         toastr.success(response.message);
@@ -101,6 +110,10 @@
                                 $('#bonusNameError').text(errors.name[0]).show();
                                 $('#bonus_name').addClass('is-invalid');
                             }
+                            if(errors.amount){
+                                $('#amountError').text(errors.amount[0]).show();
+                                $('#amount').addClass('is-invalid');
+                            }
                         }
                     }
                 });
@@ -115,6 +128,7 @@
                     type: "GET",
                     success:function(data){
                         $('#editBonus_name').val(data.name);
+                        $('#editAmount').val(data.amount);
                         $('#editBonusForm').data('data-id', id);
                     }
                 })
@@ -126,9 +140,10 @@
                 
                 let id = $('#editBonusForm').data('data-id');
                 let name = $('#editBonus_name').val();
+                let amount = $('#editAmount').val();
                 
-                $('#editBonusNameError').text('').hide();
-                $('#editBonus_name').removeClass('is-invalid');
+                $('#editBonusNameError, #editAmountError').text('').hide();
+                $('#editBonus_name, #editAmount').removeClass('is-invalid');
                 
                 $.ajax({
                     url: `/bonuses-update/${id}`,
@@ -136,6 +151,7 @@
                     data: {
                     _token: "{{ csrf_token() }}",
                     name: name,
+                    amount: amount
                 },
                 success:function(response){
                     toastr.success(response.message);
@@ -160,6 +176,10 @@
                         if(errors.name){
                             $('#editBonusNameError').text(errors.name[0]).show();
                             $('#editBonus_name').addClass('is-invalid');
+                        }
+                        if(errors.amount){
+                            $('#editAmountError').text(errors.name[0]).show();
+                            $('#editAmount').addClass('is-invalid');
                         }
                     }else{
                         toastr.error('An error occurred while updating bonus.');

@@ -10,9 +10,16 @@
 
         <div class="modal-body">
           <div class="mb-3" id="allowanceNameDiv">
-            <label for="name" class="form-label">Allowance Name</label>
+            <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control" id="allowance_name" name="name">
             <div class="invalid-feedback" id="allowanceNameError">
+            </div>
+          </div>
+          
+          <div class="mb-3" id="allowanceAmountDiv">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" class="form-control" id="amount" name="amount">
+            <div class="invalid-feedback" id="amountError">
             </div>
           </div>
          

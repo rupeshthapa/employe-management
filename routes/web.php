@@ -92,6 +92,7 @@ Route::name('nav.')->group(function(){
     Route::post('/payrolls-update/{id}', [PayrollsController::class, 'update'])->name('payrolls.update');
     Route::delete('/payrolls-destroy/{id}', [PayrollsController::class, 'destroy'])->name('payrolls.destroy');
 
+    
 
     
 
@@ -99,6 +100,12 @@ Route::name('nav.')->group(function(){
 
 
     Route::get('/payslip', [PayslipController::class, 'index'])->name('payslip.index');
+    Route::get('/employee/salary/{id}', [PayslipController::class, 'getEmployeeSalary'])->name('payslip.getEmployeeSalary');
+    Route::get('/bonus/amount/{id}', [PayslipController::class, 'getBonusAmount'])->name('payslip.getBonusAmount');
+    Route::post('/payslip-store', [PayslipController::class, 'store'])->name('payslip.store');
+    Route::get('/payslip-data', [PayslipController::class, 'indexData'])->name('payslip.index.data');
+    Route::get('/payslip/{id}/edit', [PayslipController::class, 'edit'])->name('payslip.edit');
+
 
     
 

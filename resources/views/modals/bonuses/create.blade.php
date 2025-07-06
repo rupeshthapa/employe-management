@@ -15,7 +15,14 @@
             <div class="invalid-feedback" id="bonusNameError">
             </div>
           </div>
-         
+          
+
+          <div class="mb-3" id="bonusAmountDiv">
+            <label for="amount" class="form-label">Amount</label>
+            <input type="number" class="form-control" id="amount" name="amount">
+            <div class="invalid-feedback" id="amountError">
+            </div>
+          </div>
           
         </div>
 

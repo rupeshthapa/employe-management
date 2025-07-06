@@ -15,9 +15,10 @@ class BonusesController extends Controller
 
     public function store(BonusesRequest $request){
         $validated = $request->validated();
-
+        
         Bonus::create([
-            'name' => $validated['name']
+            'name' => $validated['name'],
+            'amount' => $validated['amount']
         ]);
 
         return response()->json([
@@ -53,10 +54,12 @@ class BonusesController extends Controller
     public function update(Request $request, string $id){
         $validated = $request->validate([
             'name' => 'required|string',
+            'amount' => 'required|numeric',
         ]);
 
         $bonus = Bonus::findOrFail($id);
-        $bonus->name = $request->name;
+        $bonus->name = $validated['name'];
+        $bonus->amount = $validated['amount'];
         $bonus->save();
 
         return response()->json([

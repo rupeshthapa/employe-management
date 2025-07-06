@@ -47,7 +47,7 @@ class PayrollsController extends Controller
                     <button class='btn btn-primary border-0 edit-payroll' data-bs-toggle='modal' data-bs-target='#editPayrollModal' data-id='{$id}'>
                         <i class='fa-regular fa-pen-to-square'></i>
                     </button>
-                    <button class='btn btn-danger border-0 delete-payroll'>
+                    <button class='btn btn-danger border-0 delete-payroll' data-id='{$id}'>
                         <i class='fa fa-trash'></i>
                     </button>
                 ";
